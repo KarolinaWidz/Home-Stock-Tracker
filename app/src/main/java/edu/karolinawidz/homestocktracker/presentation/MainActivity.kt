@@ -7,19 +7,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import edu.karolinawidz.homestocktracker.presentation.stockitem.Category
+import edu.karolinawidz.homestocktracker.presentation.stockitem.StockItem
 import edu.karolinawidz.homestocktracker.presentation.theme.HomeStockTrackerTheme
+import kotlinx.collections.immutable.persistentListOf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             HomeStockTrackerTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    StockListScreen()
+                    val itemList = persistentListOf(
+                        StockItem("Soap", 1, Category.Cosmetics),
+                        StockItem("Butter", 2, Category.Food),
+                        StockItem("Cola", 4, Category.Food),
+                        StockItem("Aspirin", 1, Category.Medicine)
+                    )
+                    StockListScreen(stockItems = itemList)
                 }
             }
         }
