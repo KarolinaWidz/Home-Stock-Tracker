@@ -1,6 +1,6 @@
 package edu.karolinawidz.homestocktracker.presentation.components.stockitem
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.R
 import edu.karolinawidz.homestocktracker.presentation.theme.HomeStockTrackerTheme
@@ -36,15 +37,45 @@ fun StockItemCard(
             Modifier
                 .fillMaxWidth()
                 .padding(vertical = PaddingSmall, horizontal = PaddingMedium),
-            horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = stockItem.name, modifier = Modifier.weight(5f))
+            CategoryImage(category = stockItem.category, modifier = Modifier.weight(1f))
+
+            ItemName(name = stockItem.name, modifier = Modifier.weight(5f))
+
             Text(text = stockItem.quantity.toString(), modifier = Modifier.weight(1f))
-            IncreaseIconButton(onIncreaseItemClicked = onIncreaseItemClicked)
-            DecreaseIconButton(onDecreaseItemClicked = onDecreaseItemClicked)
+
+            IncreaseIconButton(
+                modifier = Modifier.weight(1f),
+                onIncreaseItemClicked = onIncreaseItemClicked
+            )
+
+            DecreaseIconButton(
+                modifier = Modifier.weight(1f),
+                onDecreaseItemClicked = onDecreaseItemClicked
+            )
+
         }
     }
+}
+
+@Composable
+private fun CategoryImage(category: Category, modifier: Modifier = Modifier) {
+    Image(
+        modifier = modifier
+            .padding(PaddingMedium),
+        painter = painterResource(id = category.drawable),
+        contentDescription = category.toString(),
+    )
+}
+
+@Composable
+private fun ItemName(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = name,
+        modifier = modifier
+            .padding(horizontal = PaddingMedium)
+    )
 }
 
 @Composable
@@ -81,6 +112,7 @@ private fun DecreaseIconButton(
 }
 
 @PreviewLightDark
+@PreviewFontScale
 @Composable
 private fun PreviewStockListScreen() {
     HomeStockTrackerTheme {
