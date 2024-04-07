@@ -15,10 +15,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.PreviewDynamicColors
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.R
 import edu.karolinawidz.homestocktracker.presentation.theme.HomeStockTrackerTheme
+import edu.karolinawidz.homestocktracker.presentation.theme.PaddingMedium
 import edu.karolinawidz.homestocktracker.presentation.theme.PaddingSmall
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +38,11 @@ internal fun ListSearchBar(
     SearchBar(
         modifier = modifier
             .fillMaxWidth()
-            .padding(PaddingSmall),
+            .padding(
+                bottom = PaddingSmall,
+                start = PaddingMedium,
+                end = PaddingMedium
+            ),
         query = searchQuery,
         onQueryChange = onQueryChange,
         onSearch = onSearch,
@@ -56,7 +60,6 @@ private fun SearchIcon(modifier: Modifier = Modifier) {
 }
 
 @PreviewLightDark
-@PreviewDynamicColors
 @Composable
 private fun PreviewTopBar() {
     HomeStockTrackerTheme {

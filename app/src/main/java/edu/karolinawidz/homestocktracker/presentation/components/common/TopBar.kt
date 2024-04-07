@@ -2,6 +2,7 @@ package edu.karolinawidz.homestocktracker.presentation.components.common
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -13,10 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.PreviewDynamicColors
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.R
 import edu.karolinawidz.homestocktracker.presentation.theme.HomeStockTrackerTheme
+import edu.karolinawidz.homestocktracker.presentation.theme.PaddingSmall
 
 @Composable
 internal fun TopBar(
@@ -34,7 +35,7 @@ internal fun TopBar(
             onSearch = onSearch,
             onActiveChanged = onActiveChanged
         )
-        HorizontalDivider()
+        HorizontalDivider(modifier = Modifier.padding(vertical = PaddingSmall))
     }
 }
 
@@ -45,7 +46,8 @@ private fun TopTitleBar(title: String, modifier: Modifier = Modifier) {
         modifier = modifier,
         scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
         title = { TitleText(title = title) },
-        actions = { TopTitleBarActions() })
+        actions = { TopTitleBarActions() },
+    )
 }
 
 @Composable
@@ -71,7 +73,6 @@ private fun TopTitleBarActions(
 }
 
 @PreviewLightDark
-@PreviewDynamicColors
 @Composable
 private fun PreviewTopBar() {
     HomeStockTrackerTheme {

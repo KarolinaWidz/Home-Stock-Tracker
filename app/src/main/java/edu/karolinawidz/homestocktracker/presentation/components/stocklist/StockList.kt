@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.PreviewDynamicColors
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.presentation.components.stockitem.Category
 import edu.karolinawidz.homestocktracker.presentation.components.stockitem.StockItem
@@ -29,7 +28,7 @@ internal fun StockList(
 }
 
 @PreviewLightDark
-@PreviewDynamicColors
+
 @Composable
 private fun PreviewStockListScreen() {
     HomeStockTrackerTheme {

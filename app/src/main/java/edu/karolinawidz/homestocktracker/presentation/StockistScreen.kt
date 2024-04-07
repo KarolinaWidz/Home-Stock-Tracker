@@ -9,11 +9,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.PreviewDynamicColors
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.R
 import edu.karolinawidz.homestocktracker.presentation.components.common.TopBar
-
 import edu.karolinawidz.homestocktracker.presentation.components.stockitem.Category
 import edu.karolinawidz.homestocktracker.presentation.components.stockitem.StockItem
 import edu.karolinawidz.homestocktracker.presentation.components.stocklist.StockList
@@ -42,7 +40,6 @@ fun StockListScreen(
 }
 
 @PreviewLightDark
-@PreviewDynamicColors
 @Composable
 private fun PreviewStockListScreen() {
     HomeStockTrackerTheme {

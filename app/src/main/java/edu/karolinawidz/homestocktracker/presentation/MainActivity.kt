@@ -25,6 +25,14 @@ class MainActivity : ComponentActivity() {
                         StockItem("Soap", 1, Category.Cosmetics),
                         StockItem("Butter", 2, Category.Food),
                         StockItem("Cola", 4, Category.Food),
+                        StockItem("Aspirin", 1, Category.Medicine),
+                        StockItem("Soap", 1, Category.Cosmetics),
+                        StockItem("Butter", 2, Category.Food),
+                        StockItem("Cola", 4, Category.Food),
+                        StockItem("Aspirin", 1, Category.Medicine),
+                        StockItem("Soap", 1, Category.Cosmetics),
+                        StockItem("Butter", 2, Category.Food),
+                        StockItem("Cola", 4, Category.Food),
                         StockItem("Aspirin", 1, Category.Medicine)
                     )
                     StockListScreen(stockItems = itemList)
