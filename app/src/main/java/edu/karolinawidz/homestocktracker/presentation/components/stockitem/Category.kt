@@ -1,4 +1,4 @@
-package edu.karolinawidz.homestocktracker.presentation.stockitem
+package edu.karolinawidz.homestocktracker.presentation.components.stockitem
 
 sealed class Category {
     data object Food : Category()

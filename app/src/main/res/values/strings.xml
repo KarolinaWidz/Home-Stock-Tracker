@@ -2,4 +2,6 @@
     <string name="app_name">Home Stock Tracker</string>
     <string name="increase_number_of_units">Increase number of units</string>
     <string name="decrease_number_of_units">Decrease number of units</string>
+    <string name="sort_stock_items">Sort stock items</string>
+    <string name="search">Search</string>
 </resources>
