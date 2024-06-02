@@ -1,6 +1,8 @@
 plugins {
     alias libs.plugins.android.application
     alias libs.plugins.kotlin
+    alias libs.plugins.ksp
+    alias libs.plugins.hilt
 }
 
 android {
@@ -50,11 +52,26 @@ dependencies {
     implementation libs.ktx
     implementation libs.runtime.ktx
     implementation libs.activity
+
+//    compose
     implementation platform(libs.compose.bom)
     implementation libs.compose.ui
     implementation libs.compose.ui.tooling
     implementation libs.compose.material
+
+//    immutable
     implementation libs.kotlin.immutable
+
+//    room
+    implementation libs.room.runtime
+    implementation libs.room.ktx
+    annotationProcessor libs.room.compiler
+    ksp libs.room.compiler
+
+//    hilt
+    implementation libs.hilt.android
+    ksp libs.hilt.compiler
+
     testImplementation libs.junit4
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
@@ -62,4 +79,5 @@ dependencies {
     androidTestImplementation libs.compose.ui.junit4
     debugImplementation libs.compose.ui.tooling
     debugImplementation libs.compose.ui.test.mainifest
+
 }
