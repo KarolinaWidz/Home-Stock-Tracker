@@ -1,8 +1,9 @@
-package edu.karolinawidz.homestocktracker.presentation
+package edu.karolinawidz.homestocktracker.presentation.ui.screen
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -10,22 +11,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.hilt.navigation.compose.hiltViewModel
 import edu.karolinawidz.homestocktracker.R
-import edu.karolinawidz.homestocktracker.presentation.components.common.TopBar
-import edu.karolinawidz.homestocktracker.presentation.components.stockitem.Category
-import edu.karolinawidz.homestocktracker.presentation.components.stockitem.StockItem
-import edu.karolinawidz.homestocktracker.presentation.components.stocklist.StockList
-import edu.karolinawidz.homestocktracker.presentation.theme.HomeStockTrackerTheme
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
+import edu.karolinawidz.homestocktracker.presentation.ui.components.common.TopBar
+import edu.karolinawidz.homestocktracker.presentation.ui.components.stocklist.StockList
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
+import edu.karolinawidz.homestocktracker.presentation.ui.viewmodel.StockListViewModel
 
 @Composable
 fun StockListScreen(
     modifier: Modifier = Modifier,
-    stockItems: ImmutableList<StockItem> = persistentListOf()
+    viewModel: StockListViewModel = hiltViewModel()
 ) {
     val appTitle = stringResource(id = R.string.app_name)
     var isSearchActive by rememberSaveable { mutableStateOf(false) }
+    val state by viewModel.homeStockState.collectAsState()
     Scaffold(modifier = modifier,
         topBar = {
             TopBar(
@@ -35,7 +35,7 @@ fun StockListScreen(
                 onSearch = { TODO() },
                 onActiveChanged = { isSearchActive = it })
         }) { paddingValues ->
-        StockList(stockItems = stockItems, modifier = modifier.padding(paddingValues))
+        StockList(stockItems = state.stockItems, modifier = modifier.padding(paddingValues))
     }
 }
 
@@ -43,12 +43,6 @@ fun StockListScreen(
 @Composable
 private fun PreviewStockListScreen() {
     HomeStockTrackerTheme {
-        val itemList = persistentListOf(
-            StockItem("Soap", 1, Category.Cosmetics),
-            StockItem("Butter", 2, Category.Food),
-            StockItem("Cola", 4, Category.Food),
-            StockItem("Aspirin", 1, Category.Medicine)
-        )
-        StockListScreen(stockItems = itemList)
+        StockListScreen()
     }
 }

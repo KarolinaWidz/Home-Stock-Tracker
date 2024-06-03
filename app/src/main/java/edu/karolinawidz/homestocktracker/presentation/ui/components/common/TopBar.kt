@@ -1,4 +1,4 @@
-package edu.karolinawidz.homestocktracker.presentation.components.common
+package edu.karolinawidz.homestocktracker.presentation.ui.components.common
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,8 +16,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.R
-import edu.karolinawidz.homestocktracker.presentation.theme.HomeStockTrackerTheme
-import edu.karolinawidz.homestocktracker.presentation.theme.PaddingSmall
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingSmall
 
 @Composable
 internal fun TopBar(

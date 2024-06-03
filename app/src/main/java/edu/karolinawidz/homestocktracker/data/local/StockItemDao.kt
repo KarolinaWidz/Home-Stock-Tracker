@@ -10,21 +10,21 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface StockItemDao {
     @Insert
-    fun insert(item: StockItem)
+    fun insert(item: Item)
 
     @Delete
-    fun delete(item: StockItem)
+    fun delete(item: Item)
 
     @Update
-    fun update(item: StockItem)
+    fun update(item: Item)
 
     @Query("SELECT * FROM item WHERE name=:itemName LIMIT 1")
-    fun findByName(itemName: String): Flow<StockItem>
+    fun findByName(itemName: String): Flow<Item>
 
     @Query("SELECT * FROM item")
-    fun getAll():Flow<List<StockItem>>
+    fun getAll():Flow<List<Item>>
 
     @Query("SELECT * FROM item WHERE category=:category")
-    fun getAllWithCategory(category: String):Flow<List<StockItem>>
+    fun getAllWithCategory(category: String):Flow<List<Item>>
 
 }

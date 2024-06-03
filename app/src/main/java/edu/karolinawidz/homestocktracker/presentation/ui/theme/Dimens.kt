@@ -1,4 +1,4 @@
-package edu.karolinawidz.homestocktracker.presentation.theme
+package edu.karolinawidz.homestocktracker.presentation.ui.theme
 
 import androidx.compose.ui.unit.dp
 

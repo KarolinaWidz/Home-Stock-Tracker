@@ -1,4 +1,4 @@
-package edu.karolinawidz.homestocktracker.presentation.components.stockitem
+package edu.karolinawidz.homestocktracker.presentation.ui.components.stockitem
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
@@ -16,9 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.R
-import edu.karolinawidz.homestocktracker.presentation.theme.HomeStockTrackerTheme
-import edu.karolinawidz.homestocktracker.presentation.theme.PaddingMedium
-import edu.karolinawidz.homestocktracker.presentation.theme.PaddingSmall
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingMedium
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingSmall
 
 
 @Composable
@@ -116,7 +116,7 @@ private fun DecreaseIconButton(
 @Composable
 private fun PreviewStockListScreen() {
     HomeStockTrackerTheme {
-        val item = StockItem("Soap", 1, Category.Cosmetics)
+        val item = StockItem("Soap", 1, Category.COSMETICS)
         StockItemCard(item)
     }
 }
