@@ -29,7 +29,9 @@ class DatabaseModule {
             applicationContext,
             StockDatabase::class.java,
             databaseName
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Singleton
     @Provides
