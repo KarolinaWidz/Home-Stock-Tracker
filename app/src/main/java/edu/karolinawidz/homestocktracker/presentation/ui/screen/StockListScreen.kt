@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.hilt.navigation.compose.hiltViewModel
 import edu.karolinawidz.homestocktracker.R
+import edu.karolinawidz.homestocktracker.presentation.ui.components.AddItemFab
 import edu.karolinawidz.homestocktracker.presentation.ui.components.common.NoItemsBanner
 import edu.karolinawidz.homestocktracker.presentation.ui.components.common.TopBar
 import edu.karolinawidz.homestocktracker.presentation.ui.components.stocklist.StockList
@@ -42,7 +43,9 @@ fun StockListScreen(
                 onQueryChanged = { TODO() },
                 onSearch = { TODO() },
                 onActiveChanged = { isSearchActive = it })
-        }) { paddingValues ->
+        },
+        floatingActionButton = { AddItemFab() })
+    { paddingValues ->
         when {
             state.isLoading -> CircularProgressIndicator(modifier = modifier.padding(paddingValues))
             state.stockItems.isNotEmpty() -> StockList(

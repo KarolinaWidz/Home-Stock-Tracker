@@ -13,5 +13,6 @@ interface StockItemRepository {
     fun findItemByName(itemName: String): Flow<Item>
 
     fun getAllItems(): Flow<List<Item>>
+
     fun getAllItemsWithCategory(category: String): Flow<List<Item>>
 }

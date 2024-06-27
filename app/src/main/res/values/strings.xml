@@ -5,4 +5,5 @@
     <string name="sort_stock_items">Sort stock items</string>
     <string name="search">Search</string>
     <string name="no_items_available">No items available</string>
+    <string name="add_new_item">Add new item</string>
 </resources>
