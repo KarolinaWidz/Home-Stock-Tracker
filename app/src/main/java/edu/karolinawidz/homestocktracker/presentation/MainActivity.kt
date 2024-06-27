@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import edu.karolinawidz.homestocktracker.presentation.ui.screen.StockListScreen
+import edu.karolinawidz.homestocktracker.presentation.ui.HomeStockApp
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
 
 @AndroidEntryPoint
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    StockListScreen()
+                    HomeStockApp()
                 }
             }
         }

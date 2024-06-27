@@ -25,11 +25,13 @@ import edu.karolinawidz.homestocktracker.presentation.ui.viewmodel.StockListView
 @Composable
 fun StockListScreen(
     modifier: Modifier = Modifier,
+    onAddItemClicked: () -> Unit = {},
     viewModel: StockListViewModel = hiltViewModel()
 ) {
     val appTitle = stringResource(id = R.string.app_name)
     var isSearchActive by rememberSaveable { mutableStateOf(false) }
     val state by viewModel.homeStockState.collectAsState()
+
 
     LaunchedEffect(key1 = Unit) {
         viewModel.loadHomeStock()
@@ -44,14 +46,19 @@ fun StockListScreen(
                 onSearch = { TODO() },
                 onActiveChanged = { isSearchActive = it })
         },
-        floatingActionButton = { AddItemFab() })
+        floatingActionButton = {
+            AddItemFab(onClick = onAddItemClicked)
+        })
+
     { paddingValues ->
+
         when {
             state.isLoading -> CircularProgressIndicator(modifier = modifier.padding(paddingValues))
             state.stockItems.isNotEmpty() -> StockList(
                 stockItems = state.stockItems,
                 modifier = modifier.padding(paddingValues)
             )
+
             else -> NoItemsBanner(modifier = modifier.padding(paddingValues))
         }
     }

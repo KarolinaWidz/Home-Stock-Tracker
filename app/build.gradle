@@ -73,6 +73,9 @@ dependencies {
     implementation libs.hilt.navigation.compose
     ksp libs.hilt.compiler
 
+//    navigation
+    implementation libs.compose.navigation
+
     testImplementation libs.junit4
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

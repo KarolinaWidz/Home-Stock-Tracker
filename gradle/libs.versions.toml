@@ -15,6 +15,7 @@ androidLibrary = "8.3.2"
 room = "2.6.1"
 ksp = "1.9.24-1.0.20"
 hilt = "2.48"
+navigation = "2.7.7"
 
 [libraries]
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
@@ -24,6 +25,7 @@ activity = { group = "androidx.activity", name = "activity-compose", version.ref
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-material = { group = "androidx.compose.material3", name = "material3" }
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 kotlin-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinImmutable" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "extJunit" }
