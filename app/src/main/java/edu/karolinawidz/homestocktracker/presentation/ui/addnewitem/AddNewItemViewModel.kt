@@ -1,4 +1,4 @@
-package edu.karolinawidz.homestocktracker.presentation.ui.components.addnewitem
+package edu.karolinawidz.homestocktracker.presentation.ui.addnewitem
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

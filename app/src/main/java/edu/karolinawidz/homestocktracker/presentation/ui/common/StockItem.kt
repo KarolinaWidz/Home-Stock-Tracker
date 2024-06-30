@@ -1,4 +1,4 @@
-package edu.karolinawidz.homestocktracker.presentation.ui.components.common.stockitem
+package edu.karolinawidz.homestocktracker.presentation.ui.common
 
 import edu.karolinawidz.homestocktracker.data.local.Item
 import kotlinx.collections.immutable.toImmutableList

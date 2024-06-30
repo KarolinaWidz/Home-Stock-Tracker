@@ -1,4 +1,4 @@
-package edu.karolinawidz.homestocktracker.presentation.ui.components.stocklist
+package edu.karolinawidz.homestocktracker.presentation.ui.stocklist.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -6,9 +6,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import edu.karolinawidz.homestocktracker.presentation.ui.components.common.stockitem.Category
-import edu.karolinawidz.homestocktracker.presentation.ui.components.common.stockitem.StockItem
-import edu.karolinawidz.homestocktracker.presentation.ui.components.common.stockitem.StockItemCard
+import edu.karolinawidz.homestocktracker.presentation.ui.common.Category
+import edu.karolinawidz.homestocktracker.presentation.ui.common.StockItem
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingSmall
 import kotlinx.collections.immutable.ImmutableList

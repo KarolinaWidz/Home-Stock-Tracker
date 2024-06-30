@@ -1,10 +1,10 @@
-package edu.karolinawidz.homestocktracker.presentation.ui.components.stocklist
+package edu.karolinawidz.homestocktracker.presentation.ui.stocklist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.karolinawidz.homestocktracker.data.repository.StockItemRepository
-import edu.karolinawidz.homestocktracker.presentation.ui.components.common.stockitem.toStockItems
+import edu.karolinawidz.homestocktracker.presentation.ui.common.toStockItems
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest

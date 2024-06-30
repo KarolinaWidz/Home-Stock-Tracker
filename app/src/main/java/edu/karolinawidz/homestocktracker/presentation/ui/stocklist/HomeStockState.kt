@@ -1,6 +1,6 @@
-package edu.karolinawidz.homestocktracker.presentation.ui.components.stocklist
+package edu.karolinawidz.homestocktracker.presentation.ui.stocklist
 
-import edu.karolinawidz.homestocktracker.presentation.ui.components.common.stockitem.StockItem
+import edu.karolinawidz.homestocktracker.presentation.ui.common.StockItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

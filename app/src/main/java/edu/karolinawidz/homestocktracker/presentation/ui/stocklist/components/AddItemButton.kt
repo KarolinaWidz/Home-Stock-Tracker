@@ -1,4 +1,4 @@
-package edu.karolinawidz.homestocktracker.presentation.ui.components
+package edu.karolinawidz.homestocktracker.presentation.ui.stocklist.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add

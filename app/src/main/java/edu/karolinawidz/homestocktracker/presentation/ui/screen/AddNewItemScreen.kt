@@ -6,7 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import edu.karolinawidz.homestocktracker.presentation.ui.components.addnewitem.AddNewItemViewModel
+import edu.karolinawidz.homestocktracker.presentation.ui.addnewitem.AddNewItemViewModel
 
 @Composable
 fun AddNewItemScreen(

@@ -1,5 +1,7 @@
-package edu.karolinawidz.homestocktracker.presentation.ui.components.common.stockitem
+package edu.karolinawidz.homestocktracker.presentation.ui.stocklist.components
 
+import edu.karolinawidz.homestocktracker.presentation.ui.common.Category
+import edu.karolinawidz.homestocktracker.presentation.ui.common.StockItem
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
