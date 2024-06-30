@@ -1,6 +1,7 @@
 package edu.karolinawidz.homestocktracker.presentation.ui.stocklist.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -69,7 +70,7 @@ fun StockItemCard(
 private fun CategoryImage(category: Category, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
-            .padding(PaddingMedium)
+            .padding(horizontal = PaddingMedium)
             .size(SizeMedium),
         shape = RoundedCornerShape(CornerRadiusSmall)
     ) {
@@ -83,7 +84,10 @@ private fun CategoryImage(category: Category, modifier: Modifier = Modifier) {
 
 @Composable
 private fun ItemText(name: String, quantity: Int, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(PaddingSmall)) {
+    Column(
+        modifier = modifier.padding(PaddingSmall),
+        verticalArrangement = Arrangement.spacedBy(PaddingSmall)
+    ) {
         ItemName(name = name)
         ItemQuantity(quantity = quantity)
     }
