@@ -1,4 +1,4 @@
-package edu.karolinawidz.homestocktracker.presentation.ui.components.stockitem
+package edu.karolinawidz.homestocktracker.presentation.ui.components.common.stockitem
 
 import edu.karolinawidz.homestocktracker.R
 

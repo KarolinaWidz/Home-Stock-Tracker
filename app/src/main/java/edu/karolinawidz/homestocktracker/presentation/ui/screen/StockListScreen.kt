@@ -20,7 +20,7 @@ import edu.karolinawidz.homestocktracker.presentation.ui.components.common.NoIte
 import edu.karolinawidz.homestocktracker.presentation.ui.components.common.TopBar
 import edu.karolinawidz.homestocktracker.presentation.ui.components.stocklist.StockList
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
-import edu.karolinawidz.homestocktracker.presentation.ui.viewmodel.StockListViewModel
+import edu.karolinawidz.homestocktracker.presentation.ui.components.stocklist.StockListViewModel
 
 @Composable
 fun StockListScreen(

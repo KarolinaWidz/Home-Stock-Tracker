@@ -6,9 +6,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import edu.karolinawidz.homestocktracker.presentation.ui.components.stockitem.Category
-import edu.karolinawidz.homestocktracker.presentation.ui.components.stockitem.StockItem
-import edu.karolinawidz.homestocktracker.presentation.ui.components.stockitem.StockItemCard
+import edu.karolinawidz.homestocktracker.presentation.ui.components.common.stockitem.Category
+import edu.karolinawidz.homestocktracker.presentation.ui.components.common.stockitem.StockItem
+import edu.karolinawidz.homestocktracker.presentation.ui.components.common.stockitem.StockItemCard
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingSmall
 import kotlinx.collections.immutable.ImmutableList
