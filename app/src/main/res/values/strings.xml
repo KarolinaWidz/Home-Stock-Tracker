@@ -7,4 +7,5 @@
     <string name="no_items_available">No items available</string>
     <string name="add_new_item">Add new item</string>
     <string name="quantity">Quantity: %1$s</string>
+    <string name="navigate_back">Navigate back</string>
 </resources>

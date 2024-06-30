@@ -1,4 +1,4 @@
-package edu.karolinawidz.homestocktracker.presentation.ui.components.common
+package edu.karolinawidz.homestocktracker.presentation.ui.common.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.R
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
-import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingMedium
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingLarge
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingSmall
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,9 +39,10 @@ internal fun ListSearchBar(
         modifier = modifier
             .fillMaxWidth()
             .padding(
+                top = PaddingSmall,
                 bottom = PaddingSmall,
-                start = PaddingMedium,
-                end = PaddingMedium
+                start = PaddingLarge,
+                end = PaddingLarge
             ),
         query = searchQuery,
         onQueryChange = onQueryChange,

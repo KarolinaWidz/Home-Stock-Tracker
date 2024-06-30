@@ -1,12 +1,12 @@
-package edu.karolinawidz.homestocktracker.presentation.ui.components.common
+package edu.karolinawidz.homestocktracker.presentation.ui.common.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -17,7 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.R
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
-import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingSmall
 
 @Composable
 internal fun TopBar(
@@ -35,7 +34,6 @@ internal fun TopBar(
             onSearch = onSearch,
             onActiveChanged = onActiveChanged
         )
-        HorizontalDivider(modifier = Modifier.padding(vertical = PaddingSmall))
     }
 }
 
@@ -45,6 +43,7 @@ private fun TopTitleBar(title: String, modifier: Modifier = Modifier) {
     TopAppBar(
         modifier = modifier,
         scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+        navigationIcon = { NavigationIcon() },
         title = { TitleText(title = title) },
         actions = { TopTitleBarActions() },
     )
@@ -52,7 +51,27 @@ private fun TopTitleBar(title: String, modifier: Modifier = Modifier) {
 
 @Composable
 private fun TitleText(title: String, modifier: Modifier = Modifier) {
-    Text(modifier = modifier, text = title)
+    Text(
+        modifier = modifier.fillMaxWidth(),
+        text = title,
+        style = MaterialTheme.typography.titleLarge
+    )
+}
+
+@Composable
+private fun NavigationIcon(
+    modifier: Modifier = Modifier,
+    onBackClicked: () -> Unit = {}
+) {
+    IconButton(modifier = modifier, onClick = onBackClicked) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_back),
+            contentDescription = stringResource(
+                R.string.navigate_back
+            ),
+            tint = MaterialTheme.colorScheme.onSurface
+        )
+    }
 }
 
 @Composable
@@ -66,7 +85,8 @@ private fun TopTitleBarActions(
                 painter = painterResource(id = R.drawable.ic_sort),
                 contentDescription = stringResource(
                     R.string.sort_stock_items
-                )
+                ),
+                tint = MaterialTheme.colorScheme.onSurface
             )
         }
     }
