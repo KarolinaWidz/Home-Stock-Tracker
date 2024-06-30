@@ -2,7 +2,10 @@ package edu.karolinawidz.homestocktracker.presentation.ui.common.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -17,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.R
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.SpacerMedium
 
 @Composable
 internal fun TopBar(
@@ -27,7 +31,10 @@ internal fun TopBar(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        TopTitleBar(title = title)
+        TopTitleBar(
+            navigationIcon = { Spacer(modifier = Modifier.size(SpacerMedium)) },
+            title = title
+        ) { TopTitleBarActions() }
         ListSearchBar(
             isSearchActive = isSearchActive,
             onQueryChanged = onQueryChanged,
@@ -37,15 +44,35 @@ internal fun TopBar(
     }
 }
 
+@Composable
+fun TopTitleBarWithNavigation(
+    title: String,
+    modifier: Modifier = Modifier,
+    onBackClicked: () -> Unit = {},
+    actions: @Composable (RowScope.() -> Unit) = { }
+) {
+    TopTitleBar(
+        modifier = modifier,
+        navigationIcon = { NavigationIcon(onBackClicked = onBackClicked) },
+        title = title,
+        actions = actions,
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopTitleBar(title: String, modifier: Modifier = Modifier) {
+fun TopTitleBar(
+    title: String,
+    modifier: Modifier = Modifier,
+    navigationIcon: @Composable () -> Unit = {},
+    actions: @Composable (RowScope.() -> Unit) = { }
+) {
     TopAppBar(
         modifier = modifier,
         scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
-        navigationIcon = { NavigationIcon() },
+        navigationIcon = navigationIcon,
         title = { TitleText(title = title) },
-        actions = { TopTitleBarActions() },
+        actions = actions,
     )
 }
 
@@ -102,6 +129,17 @@ private fun PreviewTopBar() {
             onQueryChanged = {},
             onSearch = {},
             onActiveChanged = {},
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun PreviewTopBarWithNavigation() {
+    HomeStockTrackerTheme {
+        TopTitleBarWithNavigation(
+            title = "Home Stock Tracker",
+            actions = { Spacer(modifier = Modifier.size(SpacerMedium)) }
         )
     }
 }

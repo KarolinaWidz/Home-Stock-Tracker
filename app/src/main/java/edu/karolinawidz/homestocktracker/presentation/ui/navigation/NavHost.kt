@@ -19,11 +19,11 @@ fun HomeStockNavigation(
         composable(route = Destination.Home.name)
         {
             StockListScreen(
-                onAddItemClicked = { navController.navigate(route = Destination.NewItem.name) }
+                onAddItemClicked = { navController.navigate(route = Destination.NewItem.name) },
             )
         }
         composable(route = Destination.NewItem.name) {
-            AddNewItemScreen()
+            AddNewItemScreen(onBackClicked = { navController.navigateUp() })
         }
     }
 }
