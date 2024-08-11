@@ -9,6 +9,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +26,6 @@ class AddNewItemViewModel @Inject constructor(
     val categoryItems: StateFlow<ImmutableList<CategoryState>> = _categoryItems
 
     fun categorySelected(category: Category) {
-        _categoryItems.value = _categoryItems.value.map { item -> item.copy(isSelected = item.category == category) }
-            .toImmutableList()
+        _categoryItems.update { items -> items.map { it.copy(isSelected = it.category == category) }.toImmutableList() }
     }
 }

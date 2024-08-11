@@ -11,5 +11,6 @@ val SizeMedium = 56.dp
 
 val CornerRadiusSmall = 4.dp
 val CornerRadiusMedium = 12.dp
+val CornerRadiusExtraLarge = 28.dp
 
 val SpacerMedium = 40.dp

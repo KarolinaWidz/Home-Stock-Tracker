@@ -107,7 +107,7 @@ private fun ItemName(name: String, modifier: Modifier = Modifier) {
 fun ItemQuantity(quantity: Int, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier,
-        text = stringResource(R.string.quantity, quantity),
+        text = stringResource(R.string.quantity_list, quantity),
         style = Typography.labelSmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
