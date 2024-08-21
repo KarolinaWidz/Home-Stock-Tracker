@@ -7,15 +7,15 @@ import javax.inject.Inject
 
 class StockItemOfflineRepository @Inject constructor(private val dao: StockItemDao) :
     StockItemRepository {
-    override fun addItem(item: Item) {
+    override suspend fun addItem(item: Item) {
         dao.insert(item)
     }
 
-    override fun deleteItem(item: Item) {
+    override suspend fun deleteItem(item: Item) {
         dao.delete(item)
     }
 
-    override fun updateItem(item: Item) {
+    override suspend fun updateItem(item: Item) {
         dao.update(item)
     }
 

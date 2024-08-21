@@ -9,9 +9,11 @@ enum class Category(val drawable: Int) {
     MEDICINE(R.drawable.ic_medicine),
     PETS(R.drawable.ic_pets),
     CAR(R.drawable.ic_car),
-    OTHERS(R.drawable.ic_others);
+    OTHERS(R.drawable.ic_others),
+    UNKNOWN(R.drawable.ic_unknown);
 
     companion object {
-        fun findByName(name: String) = Category.entries.firstOrNull { name == it.name } ?: OTHERS
+        fun findByName(name: String) = Category.entries.firstOrNull { name == it.name } ?: UNKNOWN
+        fun getEntries() = Category.entries.filterNot { it == UNKNOWN }
     }
 }

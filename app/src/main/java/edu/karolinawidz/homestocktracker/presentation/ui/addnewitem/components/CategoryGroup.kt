@@ -18,16 +18,17 @@ import kotlinx.collections.immutable.toImmutableList
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CategoryGroup(
-    categories: ImmutableList<CategoryState>,
+    categories: ImmutableList<Category>,
     modifier: Modifier = Modifier,
+    selectedCategory: Category? = null,
     onItemClicked: (Category) -> Unit = {}
 ) {
     FlowRow(modifier = modifier) {
-        for (state in categories) {
+        for (category in categories) {
             CategoryItem(
-                item = state.category.name,
-                selected = state.isSelected,
-                onCategoryClicked = { onItemClicked(state.category) },
+                item = category.name,
+                selected = selectedCategory?.let { it == category } ?: false,
+                onCategoryClicked = { onItemClicked(category) },
             )
         }
     }
@@ -52,7 +53,7 @@ private fun CategoryItem(
 @Composable
 private fun PreviewAddNewItem() {
     HomeStockTrackerTheme {
-        val list = Category.entries.map { CategoryState(category = it) }.toImmutableList()
+        val list = Category.entries.toImmutableList()
         CategoryGroup(list)
     }
 }

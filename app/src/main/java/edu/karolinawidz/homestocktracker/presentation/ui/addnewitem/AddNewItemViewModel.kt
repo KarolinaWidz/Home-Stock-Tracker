@@ -1,15 +1,18 @@
 package edu.karolinawidz.homestocktracker.presentation.ui.addnewitem
 
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import edu.karolinawidz.homestocktracker.data.local.Item
 import edu.karolinawidz.homestocktracker.data.repository.StockItemRepository
-import edu.karolinawidz.homestocktracker.presentation.ui.addnewitem.components.CategoryState
 import edu.karolinawidz.homestocktracker.presentation.ui.common.Category
-import kotlinx.collections.immutable.ImmutableList
+import edu.karolinawidz.homestocktracker.presentation.ui.common.StockItem
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,12 +23,40 @@ class AddNewItemViewModel @Inject constructor(
     private var _newItemScreenState = MutableStateFlow(AddNewItemState())
     val newItemScreenState: StateFlow<AddNewItemState> = _newItemScreenState
 
-    private var _categoryItems = MutableStateFlow(
-        Category.entries.map { category -> CategoryState(category = category) }.toImmutableList()
-    )
-    val categoryItems: StateFlow<ImmutableList<CategoryState>> = _categoryItems
+    fun provideCategories() = Category.getEntries().toImmutableList()
 
     fun categorySelected(category: Category) {
-        _categoryItems.update { items -> items.map { it.copy(isSelected = it.category == category) }.toImmutableList() }
+        val currentItem = _newItemScreenState.value.newItem ?: StockItem()
+        _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(category = category)) }
+    }
+
+    fun nameUpdated(name: String) {
+        val currentItem = _newItemScreenState.value.newItem ?: StockItem()
+        _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(name = name)) }
+
+    }
+
+    fun quantityChanged(quantity: String) {
+        val currentItem = _newItemScreenState.value.newItem ?: StockItem()
+        val validatedQuantity = if (quantity.isNotBlank() && quantity.isDigitsOnly()) {
+            quantity.toInt()
+        } else {
+            0
+        }
+        _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(quantity = validatedQuantity)) }
+    }
+
+    fun addItem() {
+        val item = _newItemScreenState.value.newItem
+        if (item != null) {
+            val itemToAdd = Item(
+                name = item.name,
+                quantity = item.quantity,
+                category = item.category.name
+            )
+            viewModelScope.launch {
+                repository.addItem(itemToAdd)
+            }
+        }
     }
 }

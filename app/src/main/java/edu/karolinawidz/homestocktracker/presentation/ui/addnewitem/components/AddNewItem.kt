@@ -33,9 +33,10 @@ fun AddNewItem(
     modifier: Modifier = Modifier,
     name: String = "",
     onNameChanged: (String) -> Unit = {},
-    categoryStateList: ImmutableList<CategoryState>,
+    categories: ImmutableList<Category>,
+    selectedCategory: Category? = null,
     onCategorySelected: (Category) -> Unit = {},
-    quantity: String = "",
+    quantity: Int = 0,
     onQuantityChanged: (String) -> Unit = {},
     onAddItemClicked: () -> Unit = {},
 ) {
@@ -50,7 +51,8 @@ fun AddNewItem(
         )
         Spacer(modifier = modifier.padding(vertical = PaddingMedium))
         CategoryRegion(
-            categoryStateList = categoryStateList,
+            categories = categories,
+            selectedCategory = selectedCategory,
             onCategorySelected = onCategorySelected
         )
         Spacer(modifier = modifier.padding(vertical = PaddingMedium))
@@ -88,9 +90,10 @@ private fun NameRegion(
 
 @Composable
 private fun CategoryRegion(
-    categoryStateList: ImmutableList<CategoryState>,
+    categories: ImmutableList<Category>,
     modifier: Modifier = Modifier,
-    onCategorySelected: (Category) -> Unit = {}
+    onCategorySelected: (Category) -> Unit = {},
+    selectedCategory: Category?
 ) {
     Column(modifier = modifier) {
         Text(
@@ -101,7 +104,8 @@ private fun CategoryRegion(
         )
         CategoryGroup(
             modifier = Modifier.fillMaxWidth(),
-            categories = categoryStateList,
+            categories = categories,
+            selectedCategory = selectedCategory,
             onItemClicked = onCategorySelected,
         )
     }
@@ -109,7 +113,7 @@ private fun CategoryRegion(
 
 @Composable
 private fun QuantityRegion(
-    quantity: String,
+    quantity: Int,
     modifier: Modifier = Modifier,
     onQuantityChanged: (String) -> Unit = {}
 ) {
@@ -129,15 +133,14 @@ private fun QuantityRegion(
 
 @Composable
 private fun QuantityPanel(
-    quantity: String,
+    quantity: Int,
     modifier: Modifier = Modifier,
     onQuantityChanged: (String) -> Unit = {}
 ) {
     Row(modifier = modifier) {
         TextField(
             shape = RoundedCornerShape(CornerRadiusMedium),
-            placeholder = { Text(text = stringResource(id = R.string.e_g_one)) },
-            value = quantity,
+            value = quantity.toString(),
             singleLine = true,
             onValueChange = onQuantityChanged,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
@@ -160,8 +163,8 @@ private fun AddButtonRegion(
 @Composable
 private fun PreviewAddNewItem() {
     HomeStockTrackerTheme {
-        val list = Category.entries.map { CategoryState(category = it) }.toImmutableList()
-        AddNewItem(categoryStateList = list)
+        val list = Category.entries.toImmutableList()
+        AddNewItem(categories = list)
     }
 }
 

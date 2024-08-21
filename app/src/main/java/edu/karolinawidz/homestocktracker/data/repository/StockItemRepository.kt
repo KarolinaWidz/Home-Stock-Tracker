@@ -4,11 +4,11 @@ import edu.karolinawidz.homestocktracker.data.local.Item
 import kotlinx.coroutines.flow.Flow
 
 interface StockItemRepository {
-    fun addItem(item: Item)
+    suspend fun addItem(item: Item)
 
-    fun deleteItem(item: Item)
+    suspend fun deleteItem(item: Item)
 
-    fun updateItem(item: Item)
+    suspend fun updateItem(item: Item)
 
     fun findItemByName(itemName: String): Flow<Item>
 

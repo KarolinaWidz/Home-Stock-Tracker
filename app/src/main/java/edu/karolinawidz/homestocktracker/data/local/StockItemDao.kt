@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface StockItemDao {
     @Insert
-    fun insert(item: Item)
+    suspend fun insert(item: Item)
 
     @Delete
-    fun delete(item: Item)
+    suspend fun delete(item: Item)
 
     @Update
-    fun update(item: Item)
+    suspend fun update(item: Item)
 
     @Query("SELECT * FROM item WHERE name=:itemName LIMIT 1")
     fun findByName(itemName: String): Flow<Item>

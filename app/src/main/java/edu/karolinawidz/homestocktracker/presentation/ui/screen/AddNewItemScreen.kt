@@ -26,7 +26,6 @@ fun AddNewItemScreen(
     val screenTitle = stringResource(id = R.string.add_new_item)
 
     val state by viewModel.newItemScreenState.collectAsState()
-    val categoryState by viewModel.categoryItems.collectAsState()
 
     Scaffold(modifier = modifier,
         topBar = {
@@ -47,8 +46,14 @@ fun AddNewItemScreen(
             else -> {
                 AddNewItem(
                     modifier = modifier.padding(paddingValues),
-                    categoryStateList = categoryState,
+                    name = state.newItem?.name ?: "",
+                    onNameChanged = { name -> viewModel.nameUpdated(name) },
+                    categories = viewModel.provideCategories(),
+                    selectedCategory= state.newItem?.category,
                     onCategorySelected = { category -> viewModel.categorySelected(category = category) },
+                    quantity = state.newItem?.quantity ?: 0,
+                    onQuantityChanged = { quantity -> viewModel.quantityChanged(quantity) },
+                    onAddItemClicked = { viewModel.addItem() }
                 )
             }
         }
