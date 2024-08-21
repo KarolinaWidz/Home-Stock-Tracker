@@ -20,7 +20,6 @@ import edu.karolinawidz.homestocktracker.presentation.ui.theme.SpacerMedium
 @Composable
 fun AddNewItemScreen(
     modifier: Modifier = Modifier,
-    onAddItemClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
     viewModel: AddNewItemViewModel = hiltViewModel()
 ) {
@@ -45,12 +44,13 @@ fun AddNewItemScreen(
                 TODO()
             }
 
-            else -> AddNewItem(
-                modifier = modifier.padding(paddingValues),
-                categoryStateList = categoryState,
-                onCategorySelected = { category -> viewModel.categorySelected(category = category) },
-                onAddItemClicked = onAddItemClicked
-            )
+            else -> {
+                AddNewItem(
+                    modifier = modifier.padding(paddingValues),
+                    categoryStateList = categoryState,
+                    onCategorySelected = { category -> viewModel.categorySelected(category = category) },
+                )
+            }
         }
     }
 }

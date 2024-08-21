@@ -27,7 +27,7 @@ fun CategoryGroup(
             CategoryItem(
                 item = state.category.name,
                 selected = state.isSelected,
-                onItemClicked = { onItemClicked(state.category) },
+                onCategoryClicked = { onItemClicked(state.category) },
             )
         }
     }
@@ -38,12 +38,12 @@ private fun CategoryItem(
     item: String,
     selected: Boolean,
     modifier: Modifier = Modifier,
-    onItemClicked: () -> Unit = {}
+    onCategoryClicked: () -> Unit = {}
 ) {
     InputChip(
         modifier = modifier.padding(horizontal = PaddingExtraSmall),
         selected = selected,
-        onClick = onItemClicked,
+        onClick = onCategoryClicked,
         label = { Text(text = item) })
 }
 
