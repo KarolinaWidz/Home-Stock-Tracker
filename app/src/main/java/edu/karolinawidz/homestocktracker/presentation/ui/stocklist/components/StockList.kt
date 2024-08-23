@@ -17,11 +17,17 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 internal fun StockList(
     modifier: Modifier = Modifier,
-    stockItems: ImmutableList<StockItem> = persistentListOf()
+    stockItems: ImmutableList<StockItem> = persistentListOf(),
+    onIncreaseItemClicked: (StockItem) -> Unit = {},
+    onDecreaseItemClicked: (StockItem) -> Unit = {}
 ) {
     LazyColumn(modifier = modifier.padding(PaddingSmall)) {
         items(stockItems) { stockItem ->
-            StockItemCard(stockItem = stockItem)
+            StockItemCard(
+                stockItem = stockItem,
+                onIncreaseItemClicked = { onIncreaseItemClicked(stockItem) },
+                onDecreaseItemClicked = { onDecreaseItemClicked(stockItem) }
+            )
         }
     }
 }

@@ -17,10 +17,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import edu.karolinawidz.homestocktracker.R
 import edu.karolinawidz.homestocktracker.presentation.ui.common.components.NoItemsBanner
 import edu.karolinawidz.homestocktracker.presentation.ui.common.components.TopBar
-import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
 import edu.karolinawidz.homestocktracker.presentation.ui.stocklist.StockListViewModel
 import edu.karolinawidz.homestocktracker.presentation.ui.stocklist.components.AddItemFab
 import edu.karolinawidz.homestocktracker.presentation.ui.stocklist.components.StockList
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
 
 @Composable
 fun StockListScreen(
@@ -56,7 +56,9 @@ fun StockListScreen(
             state.isLoading -> CircularProgressIndicator(modifier = modifier.padding(paddingValues))
             state.stockItems.isNotEmpty() -> StockList(
                 stockItems = state.stockItems,
-                modifier = modifier.padding(paddingValues)
+                modifier = modifier.padding(paddingValues),
+                onIncreaseItemClicked = { item -> viewModel.increaseAmountForItem(item) },
+                onDecreaseItemClicked = { item -> viewModel.decreaseAmountForItem(item) }
             )
 
             else -> NoItemsBanner(modifier = modifier.padding(paddingValues))
