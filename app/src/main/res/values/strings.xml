@@ -13,4 +13,7 @@
     <string name="category">Category</string>
     <string name="quantity">Quantity</string>
     <string name="e_g_one">e.g. 1</string>
+    <string name="item_saved_successfully">Item saved successfully!</string>
+    <string name="the_name_field_is_required_please_provide_a_name">The name field is required. Please provide a name.</string>
+    <string name="ok">OK</string>
 </resources>

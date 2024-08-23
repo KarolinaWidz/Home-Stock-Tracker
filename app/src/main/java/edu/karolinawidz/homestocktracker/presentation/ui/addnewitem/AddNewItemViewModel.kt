@@ -28,12 +28,13 @@ class AddNewItemViewModel @Inject constructor(
     fun categorySelected(category: Category) {
         val currentItem = _newItemScreenState.value.newItem ?: StockItem()
         _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(category = category)) }
+        resetStateFlags()
     }
 
     fun nameUpdated(name: String) {
         val currentItem = _newItemScreenState.value.newItem ?: StockItem()
         _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(name = name)) }
-
+        resetStateFlags()
     }
 
     fun quantityChanged(quantity: String) {
@@ -44,19 +45,37 @@ class AddNewItemViewModel @Inject constructor(
             0
         }
         _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(quantity = validatedQuantity)) }
+        resetStateFlags()
     }
 
     fun addItem() {
+        resetStateFlags()
         val item = _newItemScreenState.value.newItem
-        if (item != null) {
+        if (item != null && item.name.isNotBlank()) {
             val itemToAdd = Item(
                 name = item.name,
                 quantity = item.quantity,
                 category = item.category.name
             )
+            _newItemScreenState.update { state -> state.copy(isLoading = true) }
+
             viewModelScope.launch {
                 repository.addItem(itemToAdd)
             }
+
+            _newItemScreenState.update { state -> state.copy(isLoading = false, isSaved = true) }
+
+        } else {
+            _newItemScreenState.update { state -> state.copy(isSaved = false, isError = true) }
+        }
+    }
+
+    private fun resetStateFlags() {
+        _newItemScreenState.update { state ->
+            state.copy(
+                isSaved = false,
+                isError = false,
+            )
         }
     }
 }
