@@ -28,13 +28,16 @@ internal fun TopBar(
     onQueryChanged: (String) -> Unit,
     onSearch: (String) -> Unit,
     onActiveChanged: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSortClicked: () -> Unit = {}
 ) {
     Column(modifier = modifier) {
         TopTitleBar(
             navigationIcon = { Spacer(modifier = Modifier.size(SpacerMedium)) },
             title = title
-        ) { TopTitleBarActions() }
+        ) {
+            TopTitleBarActions(onSortClicked = onSortClicked)
+        }
         ListSearchBar(
             isSearchActive = isSearchActive,
             onQueryChanged = onQueryChanged,

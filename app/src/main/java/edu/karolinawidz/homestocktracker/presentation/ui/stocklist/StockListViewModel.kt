@@ -32,7 +32,8 @@ class StockListViewModel @Inject constructor(
                 _homeStockState.update { state ->
                     state.copy(
                         isLoading = false,
-                        stockItems = it.toStockItems()
+                        stockItems = it.getSortedItems(_homeStockState.value.isOrderAscending)
+                            .toStockItems()
                     )
                 }
             }
@@ -61,6 +62,14 @@ class StockListViewModel @Inject constructor(
             repository.updateItem(updatedItem)
         }
     }
+
+    fun changeOrder() {
+        val currentOrder = _homeStockState.value.isOrderAscending
+        _homeStockState.update { state -> state.copy(isOrderAscending = !currentOrder) }
+        loadHomeStock()
+    }
+
+    private fun List<Item>.getSortedItems(isAsc: Boolean) = if (!isAsc) this.reversed() else this
 }
 
 

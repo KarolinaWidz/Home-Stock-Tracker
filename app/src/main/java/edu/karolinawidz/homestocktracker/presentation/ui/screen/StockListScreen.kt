@@ -1,7 +1,6 @@
 package edu.karolinawidz.homestocktracker.presentation.ui.screen
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.hilt.navigation.compose.hiltViewModel
 import edu.karolinawidz.homestocktracker.R
+import edu.karolinawidz.homestocktracker.presentation.ui.common.components.FullScreenLoadingIndicator
 import edu.karolinawidz.homestocktracker.presentation.ui.common.components.NoItemsBanner
 import edu.karolinawidz.homestocktracker.presentation.ui.common.components.TopBar
 import edu.karolinawidz.homestocktracker.presentation.ui.stocklist.StockListViewModel
@@ -44,7 +44,9 @@ fun StockListScreen(
                 isSearchActive = isSearchActive,
                 onQueryChanged = { TODO() },
                 onSearch = { TODO() },
-                onActiveChanged = { isSearchActive = it })
+                onActiveChanged = { isSearchActive = it },
+                onSortClicked = { viewModel.changeOrder() }
+            )
         },
         floatingActionButton = {
             AddItemFab(onClick = onAddItemClicked)
@@ -53,7 +55,7 @@ fun StockListScreen(
     { paddingValues ->
 
         when {
-            state.isLoading -> CircularProgressIndicator(modifier = modifier.padding(paddingValues))
+            state.isLoading -> FullScreenLoadingIndicator(modifier = modifier.padding(paddingValues))
             state.stockItems.isNotEmpty() -> StockList(
                 stockItems = state.stockItems,
                 modifier = modifier.padding(paddingValues),

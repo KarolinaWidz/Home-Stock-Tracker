@@ -22,7 +22,7 @@ interface StockItemDao {
     @Query("SELECT * FROM item WHERE name=:itemName LIMIT 1")
     fun findByName(itemName: String): Flow<Item>
 
-    @Query("SELECT * FROM item")
+    @Query("SELECT * FROM item ORDER BY name")
     fun getAll(): Flow<List<Item>>
 
     @Query("SELECT * FROM item WHERE category=:category")
