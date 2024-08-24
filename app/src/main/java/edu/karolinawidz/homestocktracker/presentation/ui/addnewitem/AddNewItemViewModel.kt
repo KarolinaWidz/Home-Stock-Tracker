@@ -28,13 +28,13 @@ class AddNewItemViewModel @Inject constructor(
     fun categorySelected(category: Category) {
         val currentItem = _newItemScreenState.value.newItem ?: StockItem()
         _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(category = category)) }
-        resetStateFlags()
+        resetAddItemState()
     }
 
     fun nameUpdated(name: String) {
         val currentItem = _newItemScreenState.value.newItem ?: StockItem()
         _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(name = name)) }
-        resetStateFlags()
+        resetAddItemState()
     }
 
     fun quantityChanged(quantity: String) {
@@ -45,11 +45,10 @@ class AddNewItemViewModel @Inject constructor(
             0
         }
         _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(quantity = validatedQuantity)) }
-        resetStateFlags()
+        resetAddItemState()
     }
 
     fun addItem() {
-        resetStateFlags()
         val item = _newItemScreenState.value.newItem
         if (item != null && item.name.isNotBlank()) {
             val itemToAdd = Item(
@@ -70,7 +69,7 @@ class AddNewItemViewModel @Inject constructor(
         }
     }
 
-    private fun resetStateFlags() {
+    fun resetAddItemState() {
         _newItemScreenState.update { state ->
             state.copy(
                 isSaved = false,

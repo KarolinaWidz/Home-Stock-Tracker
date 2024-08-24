@@ -44,6 +44,7 @@ fun AddNewItemScreen(
                 actionLabel = context.getString(R.string.ok)
             )
         }
+        viewModel.resetAddItemState()
     }
 
     LaunchedEffect(state.isSaved) {
