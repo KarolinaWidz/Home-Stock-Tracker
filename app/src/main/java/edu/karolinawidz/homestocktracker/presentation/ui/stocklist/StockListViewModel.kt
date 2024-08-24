@@ -69,6 +69,17 @@ class StockListViewModel @Inject constructor(
         loadHomeStock()
     }
 
+    fun deleteItem(item: StockItem) {
+        val itemToDelete = Item(
+            name = item.name,
+            quantity = item.quantity,
+            category = item.category.name
+        )
+        viewModelScope.launch {
+            repository.deleteItem(itemToDelete)
+        }
+    }
+
     private fun List<Item>.getSortedItems(isAsc: Boolean) = if (!isAsc) this.reversed() else this
 }
 

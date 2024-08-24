@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.presentation.ui.common.Category
 import edu.karolinawidz.homestocktracker.presentation.ui.common.StockItem
+import edu.karolinawidz.homestocktracker.presentation.ui.common.components.SwipeToDeleteContainer
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingSmall
 import kotlinx.collections.immutable.ImmutableList
@@ -18,16 +19,24 @@ import kotlinx.collections.immutable.persistentListOf
 internal fun StockList(
     modifier: Modifier = Modifier,
     stockItems: ImmutableList<StockItem> = persistentListOf(),
+    onItemDelete: (StockItem) -> Unit = {},
     onIncreaseItemClicked: (StockItem) -> Unit = {},
     onDecreaseItemClicked: (StockItem) -> Unit = {}
 ) {
     LazyColumn(modifier = modifier.padding(PaddingSmall)) {
-        items(stockItems) { stockItem ->
-            StockItemCard(
-                stockItem = stockItem,
-                onIncreaseItemClicked = { onIncreaseItemClicked(stockItem) },
-                onDecreaseItemClicked = { onDecreaseItemClicked(stockItem) }
-            )
+        items(items = stockItems, key = { it.hashCode() }) { stockItem ->
+            SwipeToDeleteContainer(
+                item = stockItem,
+                enableDismissFromStartToEnd = false,
+                enableDismissFromEndToStart = true,
+                onDelete = onItemDelete
+            ) {
+                StockItemCard(
+                    stockItem = stockItem,
+                    onIncreaseItemClicked = { onIncreaseItemClicked(stockItem) },
+                    onDecreaseItemClicked = { onDecreaseItemClicked(stockItem) }
+                )
+            }
         }
     }
 }

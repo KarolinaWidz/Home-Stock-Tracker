@@ -59,6 +59,7 @@ fun StockListScreen(
             state.stockItems.isNotEmpty() -> StockList(
                 stockItems = state.stockItems,
                 modifier = modifier.padding(paddingValues),
+                onItemDelete = { item -> viewModel.deleteItem(item) },
                 onIncreaseItemClicked = { item -> viewModel.increaseAmountForItem(item) },
                 onDecreaseItemClicked = { item -> viewModel.decreaseAmountForItem(item) }
             )
