@@ -19,20 +19,20 @@ class StockListViewModel @Inject constructor(
     private val repository: StockItemRepository
 ) : ViewModel() {
 
-    private var _homeStockState = MutableStateFlow(HomeStockState())
-    val homeStockState: StateFlow<HomeStockState> = _homeStockState
+    private var _state = MutableStateFlow(HomeStockState())
+    val state: StateFlow<HomeStockState> = _state
 
     fun loadHomeStock() {
         viewModelScope.launch {
-            _homeStockState.update { state ->
+            _state.update { state ->
                 state.copy(isLoading = true)
             }
 
             repository.getAllItems().collectLatest {
-                _homeStockState.update { state ->
+                _state.update { state ->
                     state.copy(
                         isLoading = false,
-                        stockItems = it.getSortedItems(_homeStockState.value.isOrderAscending)
+                        stockItems = it.getSortedItems(_state.value.isOrderAscending)
                             .toStockItems()
                     )
                 }
@@ -64,8 +64,8 @@ class StockListViewModel @Inject constructor(
     }
 
     fun changeOrder() {
-        val currentOrder = _homeStockState.value.isOrderAscending
-        _homeStockState.update { state -> state.copy(isOrderAscending = !currentOrder) }
+        val currentOrder = _state.value.isOrderAscending
+        _state.update { state -> state.copy(isOrderAscending = !currentOrder) }
         loadHomeStock()
     }
 

@@ -30,7 +30,7 @@ fun StockListScreen(
 ) {
     val appTitle = stringResource(id = R.string.app_name)
     var isSearchActive by rememberSaveable { mutableStateOf(false) }
-    val state by viewModel.homeStockState.collectAsState()
+    val state by viewModel.state.collectAsState()
 
 
     LaunchedEffect(key1 = Unit) {

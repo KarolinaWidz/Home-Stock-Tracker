@@ -32,7 +32,7 @@ fun AddNewItemScreen(
 ) {
     val screenTitle = stringResource(id = R.string.add_new_item)
 
-    val state by viewModel.newItemScreenState.collectAsState()
+    val state by viewModel.state.collectAsState()
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 

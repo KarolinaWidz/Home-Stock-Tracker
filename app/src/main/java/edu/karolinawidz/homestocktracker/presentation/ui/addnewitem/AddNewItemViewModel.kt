@@ -20,57 +20,57 @@ class AddNewItemViewModel @Inject constructor(
     private val repository: StockItemRepository
 ) : ViewModel() {
 
-    private var _newItemScreenState = MutableStateFlow(AddNewItemState())
-    val newItemScreenState: StateFlow<AddNewItemState> = _newItemScreenState
+    private var _state = MutableStateFlow(AddNewItemState())
+    val state: StateFlow<AddNewItemState> = _state
 
     fun provideCategories() = Category.getEntries().toImmutableList()
 
     fun categorySelected(category: Category) {
-        val currentItem = _newItemScreenState.value.newItem ?: StockItem()
-        _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(category = category)) }
+        val currentItem = _state.value.newItem ?: StockItem()
+        _state.update { state -> state.copy(newItem = currentItem.copy(category = category)) }
         resetAddItemState()
     }
 
     fun nameUpdated(name: String) {
-        val currentItem = _newItemScreenState.value.newItem ?: StockItem()
-        _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(name = name)) }
+        val currentItem = _state.value.newItem ?: StockItem()
+        _state.update { state -> state.copy(newItem = currentItem.copy(name = name)) }
         resetAddItemState()
     }
 
     fun quantityChanged(quantity: String) {
-        val currentItem = _newItemScreenState.value.newItem ?: StockItem()
+        val currentItem = _state.value.newItem ?: StockItem()
         val validatedQuantity = if (quantity.isNotBlank() && quantity.isDigitsOnly()) {
             quantity.toInt()
         } else {
             0
         }
-        _newItemScreenState.update { state -> state.copy(newItem = currentItem.copy(quantity = validatedQuantity)) }
+        _state.update { state -> state.copy(newItem = currentItem.copy(quantity = validatedQuantity)) }
         resetAddItemState()
     }
 
     fun addItem() {
-        val item = _newItemScreenState.value.newItem
+        val item = _state.value.newItem
         if (item != null && item.name.isNotBlank()) {
             val itemToAdd = Item(
                 name = item.name,
                 quantity = item.quantity,
                 category = item.category.name
             )
-            _newItemScreenState.update { state -> state.copy(isLoading = true) }
+            _state.update { state -> state.copy(isLoading = true) }
 
             viewModelScope.launch {
                 repository.addItem(itemToAdd)
             }
 
-            _newItemScreenState.update { state -> state.copy(isLoading = false, isSaved = true) }
+            _state.update { state -> state.copy(isLoading = false, isSaved = true) }
 
         } else {
-            _newItemScreenState.update { state -> state.copy(isSaved = false, isError = true) }
+            _state.update { state -> state.copy(isSaved = false, isError = true) }
         }
     }
 
     fun resetAddItemState() {
-        _newItemScreenState.update { state ->
+        _state.update { state ->
             state.copy(
                 isSaved = false,
                 isError = false,
