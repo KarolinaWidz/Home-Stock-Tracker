@@ -40,7 +40,7 @@ class AddNewItemViewModel @Inject constructor(
     fun quantityChanged(quantity: String) {
         val currentItem = _state.value.newItem ?: StockItem()
         val validatedQuantity = if (quantity.isNotBlank() && quantity.isDigitsOnly()) {
-            quantity.toInt()
+            quantity.toLong()
         } else {
             0
         }

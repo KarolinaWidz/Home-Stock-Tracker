@@ -36,7 +36,7 @@ fun AddNewItem(
     categories: ImmutableList<Category>,
     selectedCategory: Category? = null,
     onCategorySelected: (Category) -> Unit = {},
-    quantity: Int = 0,
+    quantity: Long = 0,
     onQuantityChanged: (String) -> Unit = {},
     onAddItemClicked: () -> Unit = {},
 ) {
@@ -113,7 +113,7 @@ private fun CategoryRegion(
 
 @Composable
 private fun QuantityRegion(
-    quantity: Int,
+    quantity: Long,
     modifier: Modifier = Modifier,
     onQuantityChanged: (String) -> Unit = {}
 ) {
@@ -133,7 +133,7 @@ private fun QuantityRegion(
 
 @Composable
 private fun QuantityPanel(
-    quantity: Int,
+    quantity: Long,
     modifier: Modifier = Modifier,
     onQuantityChanged: (String) -> Unit = {}
 ) {

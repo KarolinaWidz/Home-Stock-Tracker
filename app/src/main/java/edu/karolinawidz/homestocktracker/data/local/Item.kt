@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class Item(
     @PrimaryKey val name: String,
-    val quantity: Int,
+    val quantity: Long,
     val category: String
 )

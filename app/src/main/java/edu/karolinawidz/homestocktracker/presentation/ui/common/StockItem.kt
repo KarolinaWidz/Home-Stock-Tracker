@@ -5,7 +5,7 @@ import kotlinx.collections.immutable.toImmutableList
 
 data class StockItem(
     val name: String = "",
-    val quantity: Int = 0,
+    val quantity: Long = 0,
     val category: Category = Category.UNKNOWN
 )
 

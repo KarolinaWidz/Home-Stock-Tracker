@@ -85,7 +85,7 @@ private fun CategoryImage(category: Category, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun ItemText(name: String, quantity: Int, modifier: Modifier = Modifier) {
+private fun ItemText(name: String, quantity: Long, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.padding(PaddingSmall),
         verticalArrangement = Arrangement.spacedBy(PaddingSmall)
@@ -106,7 +106,7 @@ private fun ItemName(name: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ItemQuantity(quantity: Int, modifier: Modifier = Modifier) {
+fun ItemQuantity(quantity: Long, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier,
         text = stringResource(R.string.quantity_list, quantity),
