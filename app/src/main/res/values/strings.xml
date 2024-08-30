@@ -16,4 +16,5 @@
     <string name="item_saved_successfully">Item saved successfully!</string>
     <string name="the_name_field_is_required_please_provide_a_name">The name field is required. Please provide a name.</string>
     <string name="ok">OK</string>
+    <string name="add_item">Add item</string>
 </resources>

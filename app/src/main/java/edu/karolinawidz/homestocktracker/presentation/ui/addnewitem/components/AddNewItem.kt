@@ -1,18 +1,23 @@
 package edu.karolinawidz.homestocktracker.presentation.ui.addnewitem.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -23,8 +28,9 @@ import edu.karolinawidz.homestocktracker.presentation.ui.addnewitem.components.A
 import edu.karolinawidz.homestocktracker.presentation.ui.common.Category
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.CornerRadiusMedium
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingExtraLarge
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingLarge
-import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingMedium
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingSmall
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -45,48 +51,99 @@ fun AddNewItem(
             .padding(PaddingLarge)
             .fillMaxSize()
     ) {
-        NameRegion(
+        ItemNameField(
             name = name,
             onNameChanged = onNameChanged
         )
-        Spacer(modifier = modifier.padding(vertical = PaddingMedium))
+        QuantityField(
+            quantity = quantity,
+            onQuantityChanged = onQuantityChanged
+        )
+        HorizontalDivider(modifier = Modifier.padding(vertical = PaddingLarge))
         CategoryRegion(
             categories = categories,
             selectedCategory = selectedCategory,
             onCategorySelected = onCategorySelected
         )
-        Spacer(modifier = modifier.padding(vertical = PaddingMedium))
-        QuantityRegion(
-            quantity = quantity,
-            onQuantityChanged = onQuantityChanged
-        )
-        Spacer(modifier = modifier.padding(vertical = PaddingMedium))
+        Spacer(modifier = Modifier.padding(vertical = PaddingExtraLarge))
         AddButtonRegion(onAddItemClicked = onAddItemClicked)
     }
 }
 
 @Composable
-private fun NameRegion(
+private fun ItemNameField(
     name: String,
     modifier: Modifier = Modifier,
+    isError: Boolean = false,
     onNameChanged: (String) -> Unit = {}
 ) {
-    Column(modifier = modifier) {
-        Text(
-            modifier = modifier.padding(bottom = PaddingLarge),
-            text = stringResource(R.string.name), style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-        TextField(
-            modifier = modifier.fillMaxWidth(),
-            maxLines = NAME_FIELD_MAX_LINES,
-            shape = RoundedCornerShape(CornerRadiusMedium),
-            placeholder = { Text(text = stringResource(R.string.e_g_tomatoes)) },
-            value = name,
-            onValueChange = onNameChanged
-        )
-    }
+    OutlinedTextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = PaddingSmall),
+        value = name,
+        onValueChange = onNameChanged,
+        maxLines = NAME_FIELD_MAX_LINES,
+        label = { Text(text = stringResource(R.string.name)) },
+        shape = RoundedCornerShape(CornerRadiusMedium),
+        isError = isError,
+        trailingIcon = {
+            if (isError) {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    tint = MaterialTheme.colorScheme.error,
+                    contentDescription = null
+                )
+            }
+        },
+        supportingText = {
+            if (isError)
+                Text(
+                    text = stringResource(id = R.string.the_name_field_is_required_please_provide_a_name),
+                    color = MaterialTheme.colorScheme.error
+                )
+        },
+    )
 }
+
+@Composable
+private fun QuantityField(
+    quantity: Long,
+    modifier: Modifier = Modifier,
+    isError: Boolean = false,
+    onQuantityChanged: (String) -> Unit = {}
+) {
+    OutlinedTextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = PaddingSmall),
+        shape = RoundedCornerShape(CornerRadiusMedium),
+        value = quantity.toString(),
+        label = { Text(text = stringResource(R.string.quantity)) },
+        singleLine = true,
+        onValueChange = onQuantityChanged,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        isError = isError,
+        trailingIcon = {
+            if (isError) {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    tint = MaterialTheme.colorScheme.error,
+                    contentDescription = null
+                )
+            }
+        },
+        supportingText = {
+            if (isError)
+                Text(
+                    //todo change the string inside
+                    text = stringResource(id = R.string.the_name_field_is_required_please_provide_a_name),
+                    color = MaterialTheme.colorScheme.error
+                )
+        },
+    )
+}
+
 
 @Composable
 private fun CategoryRegion(
@@ -97,9 +154,11 @@ private fun CategoryRegion(
 ) {
     Column(modifier = modifier) {
         Text(
-            modifier = modifier.padding(bottom = PaddingLarge),
+            modifier = Modifier
+                .padding(bottom = PaddingLarge)
+                .align(Alignment.CenterHorizontally),
             text = stringResource(R.string.category),
-            style = MaterialTheme.typography.headlineLarge,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
         CategoryGroup(
@@ -112,50 +171,19 @@ private fun CategoryRegion(
 }
 
 @Composable
-private fun QuantityRegion(
-    quantity: Long,
-    modifier: Modifier = Modifier,
-    onQuantityChanged: (String) -> Unit = {}
-) {
-    Column(modifier = modifier) {
-        Text(
-            modifier = modifier.padding(bottom = PaddingLarge),
-            text = stringResource(R.string.quantity),
-            style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-        QuantityPanel(
-            quantity = quantity,
-            onQuantityChanged = onQuantityChanged
-        )
-    }
-}
-
-@Composable
-private fun QuantityPanel(
-    quantity: Long,
-    modifier: Modifier = Modifier,
-    onQuantityChanged: (String) -> Unit = {}
-) {
-    Row(modifier = modifier) {
-        TextField(
-            shape = RoundedCornerShape(CornerRadiusMedium),
-            value = quantity.toString(),
-            singleLine = true,
-            onValueChange = onQuantityChanged,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        )
-    }
-}
-
-@Composable
 private fun AddButtonRegion(
     modifier: Modifier = Modifier,
     onAddItemClicked: () -> Unit
 ) {
-    Button(modifier = modifier, onClick = onAddItemClicked) {
-        Text(text = "Add item")
+    Box(modifier = modifier.fillMaxWidth()) {
+        Button(
+            modifier = Modifier.align(Alignment.Center),
+            onClick = onAddItemClicked,
+        ) {
+            Text(text = stringResource(R.string.add_item))
+        }
     }
+
 }
 
 @PreviewLightDark
