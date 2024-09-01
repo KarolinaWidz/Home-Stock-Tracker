@@ -1,6 +1,5 @@
 package edu.karolinawidz.homestocktracker.presentation.ui.addnewitem.components
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -65,7 +64,11 @@ fun AddNewItem(
             selectedCategory = selectedCategory,
             onCategorySelected = onCategorySelected
         )
-        Spacer(modifier = Modifier.padding(vertical = PaddingExtraLarge))
+        Spacer(
+            modifier = Modifier
+                .padding(vertical = PaddingExtraLarge)
+                .weight(1f)
+        )
         AddButtonRegion(onAddItemClicked = onAddItemClicked)
     }
 }
@@ -175,15 +178,12 @@ private fun AddButtonRegion(
     modifier: Modifier = Modifier,
     onAddItemClicked: () -> Unit
 ) {
-    Box(modifier = modifier.fillMaxWidth()) {
-        Button(
-            modifier = Modifier.align(Alignment.Center),
-            onClick = onAddItemClicked,
-        ) {
-            Text(text = stringResource(R.string.add_item))
-        }
+    Button(
+        modifier = modifier.fillMaxWidth(),
+        onClick = onAddItemClicked,
+    ) {
+        Text(text = stringResource(R.string.add_item))
     }
-
 }
 
 @PreviewLightDark
