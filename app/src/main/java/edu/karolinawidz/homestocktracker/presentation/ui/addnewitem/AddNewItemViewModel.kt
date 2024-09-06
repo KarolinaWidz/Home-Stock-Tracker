@@ -7,7 +7,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.karolinawidz.homestocktracker.data.local.Item
 import edu.karolinawidz.homestocktracker.data.repository.StockItemRepository
 import edu.karolinawidz.homestocktracker.presentation.ui.common.Category
-import edu.karolinawidz.homestocktracker.presentation.ui.common.StockItem
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,55 +25,77 @@ class AddNewItemViewModel @Inject constructor(
     fun provideCategories() = Category.getEntries().toImmutableList()
 
     fun categorySelected(category: Category) {
-        val currentItem = _state.value.newItem ?: StockItem()
+        val currentItem = _state.value.newItem
         _state.update { state -> state.copy(newItem = currentItem.copy(category = category)) }
-        resetAddItemState()
     }
 
     fun nameUpdated(name: String) {
-        val currentItem = _state.value.newItem ?: StockItem()
-        _state.update { state -> state.copy(newItem = currentItem.copy(name = name)) }
-        resetAddItemState()
+        if (name.isNotBlank()) {
+            _state.update { state ->
+                state.copy(
+                    addNewItemError = state.addNewItemError.copy(
+                        isNameError = false
+                    ),
+                    newItem = state.newItem.copy(name = name)
+                )
+            }
+        } else {
+            _state.update { state ->
+                state.copy(
+                    addNewItemError = state.addNewItemError.copy(
+                        isNameError = true
+                    ),
+                    newItem = state.newItem.copy(name = name)
+                )
+            }
+        }
     }
 
     fun quantityChanged(quantity: String) {
-        val currentItem = _state.value.newItem ?: StockItem()
+        val currentItem = _state.value.newItem
         val validatedQuantity = if (quantity.isNotBlank() && quantity.isDigitsOnly()) {
             quantity.toLong()
         } else {
             0
         }
         _state.update { state -> state.copy(newItem = currentItem.copy(quantity = validatedQuantity)) }
-        resetAddItemState()
     }
 
     fun addItem() {
         val item = _state.value.newItem
-        if (item != null && item.name.isNotBlank()) {
+        val error = _state.value.addNewItemError
+        if (canItemBeAdded(item = item, error = error)) {
+            _state.update { state -> state.copy(isLoading = true) }
+
             val itemToAdd = Item(
-                name = item.name,
-                quantity = item.quantity,
+                name = item.name!!,
+                quantity = 0,
                 category = item.category.name
             )
-            _state.update { state -> state.copy(isLoading = true) }
 
             viewModelScope.launch {
                 repository.addItem(itemToAdd)
             }
 
-            _state.update { state -> state.copy(isLoading = false, isSaved = true) }
+            _state.update { state ->
+                state.copy(
+                    isLoading = false,
+                    savingState = state.savingState.copy(isSaved = true, isSavingError = false)
+                )
+            }
 
         } else {
-            _state.update { state -> state.copy(isSaved = false, isError = true) }
+            _state.update { state ->
+                state.copy(
+                    savingState = state.savingState.copy(
+                        isSaved = false,
+                        isSavingError = true
+                    )
+                )
+            }
         }
     }
 
-    fun resetAddItemState() {
-        _state.update { state ->
-            state.copy(
-                isSaved = false,
-                isError = false,
-            )
-        }
-    }
+    private fun canItemBeAdded(item: NewItem, error: AddNewItemError) =
+        item.name != null && !error.isNameError
 }

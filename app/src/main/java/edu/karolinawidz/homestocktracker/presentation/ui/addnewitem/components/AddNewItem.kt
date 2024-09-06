@@ -38,6 +38,7 @@ fun AddNewItem(
     modifier: Modifier = Modifier,
     name: String = "",
     onNameChanged: (String) -> Unit = {},
+    isNameError: Boolean = false,
     categories: ImmutableList<Category>,
     selectedCategory: Category? = null,
     onCategorySelected: (Category) -> Unit = {},
@@ -52,6 +53,7 @@ fun AddNewItem(
     ) {
         ItemNameField(
             name = name,
+            isError = isNameError,
             onNameChanged = onNameChanged
         )
         QuantityField(
