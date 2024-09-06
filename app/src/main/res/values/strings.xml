@@ -18,4 +18,5 @@
     <string name="cannot_add_item">Cannot add item. Ensure that all fields are filled in correctly.</string>
     <string name="ok">OK</string>
     <string name="add_item">Add item</string>
+    <string name="the_quantity_field_is_required_please_provide_a_valid_quantity">The quantity field is required. Please provide a valid quantity.</string>
 </resources>

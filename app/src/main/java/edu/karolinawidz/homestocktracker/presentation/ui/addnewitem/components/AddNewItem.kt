@@ -143,8 +143,7 @@ private fun QuantityField(
         supportingText = {
             if (isError)
                 Text(
-                    //todo change the string inside
-                    text = stringResource(id = R.string.the_name_field_is_required_please_provide_a_name),
+                    text = stringResource(R.string.the_quantity_field_is_required_please_provide_a_valid_quantity),
                     color = MaterialTheme.colorScheme.error
                 )
         },
