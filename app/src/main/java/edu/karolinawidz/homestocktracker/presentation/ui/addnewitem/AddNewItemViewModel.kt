@@ -1,6 +1,5 @@
 package edu.karolinawidz.homestocktracker.presentation.ui.addnewitem
 
-import android.util.Log
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -64,13 +63,25 @@ class AddNewItemViewModel @Inject constructor(
     }
 
     private fun quantityUpdated(quantity: String) {
-        val currentItem = _state.value.newItem
-        val validatedQuantity = if (quantity.isNotBlank() && quantity.isDigitsOnly()) {
-            quantity.toLong()
+        if (quantity.isNotBlank() && quantity.isDigitsOnly()) {
+            _state.update { state ->
+                state.copy(
+                    addNewItemError = state.addNewItemError.copy(
+                        isQuantityError = false
+                    ),
+                    newItem = state.newItem.copy(quantity = quantity.toLong())
+                )
+            }
         } else {
-            0
+            _state.update { state ->
+                state.copy(
+                    addNewItemError = state.addNewItemError.copy(
+                        isQuantityError = true
+                    ),
+                    newItem = state.newItem.copy(quantity = null)
+                )
+            }
         }
-        _state.update { state -> state.copy(newItem = currentItem.copy(quantity = validatedQuantity)) }
     }
 
     private fun addItem() {
@@ -81,7 +92,7 @@ class AddNewItemViewModel @Inject constructor(
 
             val itemToAdd = Item(
                 name = item.name!!,
-                quantity = 0,
+                quantity = item.quantity!!,
                 category = item.category.name
             )
 
@@ -95,7 +106,6 @@ class AddNewItemViewModel @Inject constructor(
                     savingState = state.savingState.copy(isSaved = true, isSavingError = false)
                 )
             }
-            Log.i(TAG, "State updated to ${state.value}")
         } else {
             _state.update { state ->
                 state.copy(
@@ -105,16 +115,14 @@ class AddNewItemViewModel @Inject constructor(
                     )
                 )
             }
-            Log.i(TAG, "State updated to ${state.value}")
         }
     }
 
     private fun canItemBeAdded(item: NewItem, error: AddNewItemError) =
-        item.name != null && !error.isNameError
+        item.name != null && !error.isNameError && item.quantity != null && !error.isQuantityError
 
     private fun resetItemState() {
         _state.update { AddNewItemState() }
-        Log.i(TAG, "State updated to ${state.value}")
     }
 
     private fun resetSavingError() {
@@ -125,9 +133,5 @@ class AddNewItemViewModel @Inject constructor(
                 )
             )
         }
-    }
-
-    private companion object {
-        const val TAG = "AddNewItemViewModel"
     }
 }

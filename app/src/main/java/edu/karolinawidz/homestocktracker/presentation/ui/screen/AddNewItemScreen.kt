@@ -75,7 +75,6 @@ fun AddNewItemScreen(
                 AddNewItem(
                     modifier = modifier.padding(paddingValues),
                     name = state.newItem.name ?: "",
-                    isNameError = state.addNewItemError.isNameError,
                     onNameChanged = { name ->
                         viewModel.processIntent(
                             AddNewItemIntent.UpdateName(
@@ -83,6 +82,7 @@ fun AddNewItemScreen(
                             )
                         )
                     },
+                    isNameError = state.addNewItemError.isNameError,
                     categories = viewModel.provideCategories(),
                     selectedCategory = state.newItem.category,
                     onCategorySelected = { category ->
@@ -92,7 +92,7 @@ fun AddNewItemScreen(
                             )
                         )
                     },
-                    quantity = state.newItem.quantity ?: 0,
+                    quantity = state.newItem.quantity?.toString() ?: "",
                     onQuantityChanged = { quantity ->
                         viewModel.processIntent(
                             AddNewItemIntent.UpdateQuantity(
@@ -100,6 +100,7 @@ fun AddNewItemScreen(
                             )
                         )
                     },
+                    isQuantityError = state.addNewItemError.isQuantityError,
                     onAddItemClicked = {
                         viewModel.processIntent(AddNewItemIntent.AddItem)
                     }

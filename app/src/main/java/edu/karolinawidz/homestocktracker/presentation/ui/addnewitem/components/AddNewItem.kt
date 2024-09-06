@@ -42,8 +42,9 @@ fun AddNewItem(
     categories: ImmutableList<Category>,
     selectedCategory: Category? = null,
     onCategorySelected: (Category) -> Unit = {},
-    quantity: Long = 0,
+    quantity: String = "",
     onQuantityChanged: (String) -> Unit = {},
+    isQuantityError: Boolean = false,
     onAddItemClicked: () -> Unit = {},
 ) {
     Column(
@@ -58,6 +59,7 @@ fun AddNewItem(
         )
         QuantityField(
             quantity = quantity,
+            isError = isQuantityError,
             onQuantityChanged = onQuantityChanged
         )
         HorizontalDivider(modifier = Modifier.padding(vertical = PaddingLarge))
@@ -113,7 +115,7 @@ private fun ItemNameField(
 
 @Composable
 private fun QuantityField(
-    quantity: Long,
+    quantity: String,
     modifier: Modifier = Modifier,
     isError: Boolean = false,
     onQuantityChanged: (String) -> Unit = {}
@@ -123,7 +125,7 @@ private fun QuantityField(
             .fillMaxWidth()
             .padding(bottom = PaddingSmall),
         shape = RoundedCornerShape(CornerRadiusMedium),
-        value = quantity.toString(),
+        value = quantity,
         label = { Text(text = stringResource(R.string.quantity)) },
         singleLine = true,
         onValueChange = onQuantityChanged,
