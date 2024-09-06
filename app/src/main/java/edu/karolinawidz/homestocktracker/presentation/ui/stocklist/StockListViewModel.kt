@@ -19,10 +19,43 @@ class StockListViewModel @Inject constructor(
     private val repository: StockItemRepository
 ) : ViewModel() {
 
-    private var _state = MutableStateFlow(HomeStockState())
-    val state: StateFlow<HomeStockState> = _state
+    private var _state = MutableStateFlow(StockState())
+    val state: StateFlow<StockState> = _state
 
-    fun loadHomeStock() {
+    fun processIntent(intent: StockListIntent) {
+        when (intent) {
+            is StockListIntent.DecreaseAmountOfItem -> decreaseAmountForItem(item = intent.item)
+            is StockListIntent.IncreaseAmountOfItem -> increaseAmountForItem(item = intent.item)
+            is StockListIntent.DeleteItem -> deleteItem(item = intent.item)
+            StockListIntent.LoadStock -> loadHomeStock()
+            StockListIntent.ChangeOrder -> changeOrder()
+        }
+    }
+
+    private fun decreaseAmountForItem(item: StockItem) {
+        val updatedQuantity = if (item.quantity > 0) item.quantity - 1 else item.quantity
+        val updatedItem = Item(
+            name = item.name,
+            quantity = updatedQuantity,
+            category = item.category.name
+        )
+        viewModelScope.launch {
+            repository.updateItem(updatedItem)
+        }
+    }
+
+    private fun increaseAmountForItem(item: StockItem) {
+        val updatedItem = Item(
+            name = item.name,
+            quantity = item.quantity + 1,
+            category = item.category.name
+        )
+        viewModelScope.launch {
+            repository.updateItem(updatedItem)
+        }
+    }
+
+    private fun loadHomeStock() {
         viewModelScope.launch {
             _state.update { state ->
                 state.copy(isLoading = true)
@@ -40,36 +73,13 @@ class StockListViewModel @Inject constructor(
         }
     }
 
-    fun increaseAmountForItem(item: StockItem) {
-        val updatedItem = Item(
-            name = item.name,
-            quantity = item.quantity + 1,
-            category = item.category.name
-        )
-        viewModelScope.launch {
-            repository.updateItem(updatedItem)
-        }
-    }
-
-    fun decreaseAmountForItem(item: StockItem) {
-        val updatedQuantity = if (item.quantity > 0) item.quantity - 1 else item.quantity
-        val updatedItem = Item(
-            name = item.name,
-            quantity = updatedQuantity,
-            category = item.category.name
-        )
-        viewModelScope.launch {
-            repository.updateItem(updatedItem)
-        }
-    }
-
-    fun changeOrder() {
+    private fun changeOrder() {
         val currentOrder = _state.value.isOrderAscending
         _state.update { state -> state.copy(isOrderAscending = !currentOrder) }
         loadHomeStock()
     }
 
-    fun deleteItem(item: StockItem) {
+    private fun deleteItem(item: StockItem) {
         val itemToDelete = Item(
             name = item.name,
             quantity = item.quantity,

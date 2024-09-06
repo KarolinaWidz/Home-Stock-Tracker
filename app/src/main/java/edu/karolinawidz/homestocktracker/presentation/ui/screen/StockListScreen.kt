@@ -17,6 +17,7 @@ import edu.karolinawidz.homestocktracker.R
 import edu.karolinawidz.homestocktracker.presentation.ui.common.components.FullScreenLoadingIndicator
 import edu.karolinawidz.homestocktracker.presentation.ui.common.components.NoItemsBanner
 import edu.karolinawidz.homestocktracker.presentation.ui.common.components.TopBar
+import edu.karolinawidz.homestocktracker.presentation.ui.stocklist.StockListIntent
 import edu.karolinawidz.homestocktracker.presentation.ui.stocklist.StockListViewModel
 import edu.karolinawidz.homestocktracker.presentation.ui.stocklist.components.AddItemFab
 import edu.karolinawidz.homestocktracker.presentation.ui.stocklist.components.StockList
@@ -34,7 +35,7 @@ fun StockListScreen(
 
 
     LaunchedEffect(key1 = Unit) {
-        viewModel.loadHomeStock()
+        viewModel.processIntent(StockListIntent.LoadStock)
     }
 
     Scaffold(modifier = modifier,
@@ -45,7 +46,7 @@ fun StockListScreen(
                 onQueryChanged = { TODO() },
                 onSearch = { TODO() },
                 onActiveChanged = { isSearchActive = it },
-                onSortClicked = { viewModel.changeOrder() }
+                onSortClicked = { viewModel.processIntent(StockListIntent.ChangeOrder) }
             )
         },
         floatingActionButton = {
@@ -59,9 +60,21 @@ fun StockListScreen(
             state.stockItems.isNotEmpty() -> StockList(
                 stockItems = state.stockItems,
                 modifier = modifier.padding(paddingValues),
-                onItemDelete = { item -> viewModel.deleteItem(item) },
-                onIncreaseItemClicked = { item -> viewModel.increaseAmountForItem(item) },
-                onDecreaseItemClicked = { item -> viewModel.decreaseAmountForItem(item) }
+                onItemDelete = { item -> viewModel.processIntent(StockListIntent.DeleteItem(item = item)) },
+                onIncreaseItemClicked = { item ->
+                    viewModel.processIntent(
+                        StockListIntent.IncreaseAmountOfItem(
+                            item = item
+                        )
+                    )
+                },
+                onDecreaseItemClicked = { item ->
+                    viewModel.processIntent(
+                        StockListIntent.DecreaseAmountOfItem(
+                            item = item
+                        )
+                    )
+                }
             )
 
             else -> NoItemsBanner(modifier = modifier.padding(paddingValues))
