@@ -7,4 +7,6 @@ sealed interface AddNewItemIntent {
     data class UpdateQuantity(val quantity: String) : AddNewItemIntent
     data class UpdateCategory(val category: Category) : AddNewItemIntent
     data object AddItem : AddNewItemIntent
+    data object CleanItem : AddNewItemIntent
+    data object DismissError : AddNewItemIntent
 }

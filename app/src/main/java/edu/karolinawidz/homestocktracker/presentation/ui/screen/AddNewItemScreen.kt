@@ -47,13 +47,14 @@ fun AddNewItemScreen(
     LaunchedEffect(state.savingState.isSaved) {
         if (state.savingState.isSaved) {
             Toast.makeText(context, R.string.item_saved_successfully, Toast.LENGTH_SHORT).show()
-            viewModel.resetItemState()
+            viewModel.processIntent(AddNewItemIntent.CleanItem)
         }
     }
 
     LaunchedEffect(state.savingState.isSavingError) {
         if (state.savingState.isSavingError) {
             showSnackbar(snackbarHostState, coroutineScope, context)
+            viewModel.processIntent(AddNewItemIntent.DismissError)
         }
     }
 

@@ -29,6 +29,8 @@ class AddNewItemViewModel @Inject constructor(
             is AddNewItemIntent.UpdateCategory -> categoryUpdated(intent.category)
             is AddNewItemIntent.UpdateName -> nameUpdated(intent.name)
             is AddNewItemIntent.UpdateQuantity -> quantityUpdated(intent.quantity)
+            AddNewItemIntent.CleanItem -> resetItemState()
+            AddNewItemIntent.DismissError -> resetSavingError()
         }
     }
 
@@ -110,9 +112,19 @@ class AddNewItemViewModel @Inject constructor(
     private fun canItemBeAdded(item: NewItem, error: AddNewItemError) =
         item.name != null && !error.isNameError
 
-    fun resetItemState() {
+    private fun resetItemState() {
         _state.update { AddNewItemState() }
         Log.i(TAG, "State updated to ${state.value}")
+    }
+
+    private fun resetSavingError() {
+        _state.update { state ->
+            state.copy(
+                savingState = state.savingState.copy(
+                    isSavingError = false
+                )
+            )
+        }
     }
 
     private companion object {
