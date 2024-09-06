@@ -83,7 +83,6 @@ class AddNewItemViewModel @Inject constructor(
                     savingState = state.savingState.copy(isSaved = true, isSavingError = false)
                 )
             }
-
         } else {
             _state.update { state ->
                 state.copy(
@@ -98,4 +97,8 @@ class AddNewItemViewModel @Inject constructor(
 
     private fun canItemBeAdded(item: NewItem, error: AddNewItemError) =
         item.name != null && !error.isNameError
+
+    fun resetItemState() {
+        _state.value = AddNewItemState()
+    }
 }

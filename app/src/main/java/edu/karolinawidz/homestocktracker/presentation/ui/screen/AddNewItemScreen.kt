@@ -1,6 +1,7 @@
 package edu.karolinawidz.homestocktracker.presentation.ui.screen
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ import edu.karolinawidz.homestocktracker.presentation.ui.addnewitem.AddNewItemVi
 import edu.karolinawidz.homestocktracker.presentation.ui.addnewitem.components.AddNewItem
 import edu.karolinawidz.homestocktracker.presentation.ui.common.components.TopTitleBarWithNavigation
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.SpacerMedium
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -41,19 +43,10 @@ fun AddNewItemScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(state.savingState.isSavingError) {
-        if (state.savingState.isSavingError) {
-            snackbarHostState.showSnackbar(
-                context.getString(R.string.cannot_add_item),
-                duration = SnackbarDuration.Short,
-                actionLabel = context.getString(R.string.ok)
-            )
-        }
-    }
-
     LaunchedEffect(state.savingState.isSaved) {
         if (state.savingState.isSaved) {
             Toast.makeText(context, R.string.item_saved_successfully, Toast.LENGTH_SHORT).show()
+            viewModel.resetItemState()
         }
     }
 
@@ -83,18 +76,26 @@ fun AddNewItemScreen(
                     onQuantityChanged = { quantity -> viewModel.quantityChanged(quantity) },
                     onAddItemClicked = {
                         viewModel.addItem()
-                        coroutineScope.launch {
-                            if (state.savingState.isSavingError) {
-                                snackbarHostState.showSnackbar(
-                                    context.getString(R.string.cannot_add_item),
-                                    duration = SnackbarDuration.Short,
-                                    actionLabel = context.getString(R.string.ok)
-                                )
-                            }
+                        if (state.savingState.isSavingError) {
+                            showSnackbar(snackbarHostState, coroutineScope, context)
                         }
                     }
                 )
             }
         }
+    }
+}
+
+private fun showSnackbar(
+    snackbarHostState: SnackbarHostState,
+    coroutineScope: CoroutineScope,
+    context: Context
+) {
+    coroutineScope.launch {
+        snackbarHostState.showSnackbar(
+            context.getString(R.string.cannot_add_item),
+            duration = SnackbarDuration.Short,
+            actionLabel = context.getString(R.string.ok)
+        )
     }
 }
