@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import edu.karolinawidz.homestocktracker.R
+import edu.karolinawidz.homestocktracker.presentation.ui.addnewitem.AddNewItemIntent
 import edu.karolinawidz.homestocktracker.presentation.ui.addnewitem.AddNewItemViewModel
 import edu.karolinawidz.homestocktracker.presentation.ui.addnewitem.components.AddNewItem
 import edu.karolinawidz.homestocktracker.presentation.ui.common.components.TopTitleBarWithNavigation
@@ -50,6 +51,12 @@ fun AddNewItemScreen(
         }
     }
 
+    LaunchedEffect(state.savingState.isSavingError) {
+        if (state.savingState.isSavingError) {
+            showSnackbar(snackbarHostState, coroutineScope, context)
+        }
+    }
+
     Scaffold(modifier = modifier,
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
@@ -68,17 +75,32 @@ fun AddNewItemScreen(
                     modifier = modifier.padding(paddingValues),
                     name = state.newItem.name ?: "",
                     isNameError = state.addNewItemError.isNameError,
-                    onNameChanged = { name -> viewModel.nameUpdated(name) },
+                    onNameChanged = { name ->
+                        viewModel.processIntent(
+                            AddNewItemIntent.UpdateName(
+                                name = name
+                            )
+                        )
+                    },
                     categories = viewModel.provideCategories(),
                     selectedCategory = state.newItem.category,
-                    onCategorySelected = { category -> viewModel.categorySelected(category = category) },
+                    onCategorySelected = { category ->
+                        viewModel.processIntent(
+                            AddNewItemIntent.UpdateCategory(
+                                category = category
+                            )
+                        )
+                    },
                     quantity = state.newItem.quantity ?: 0,
-                    onQuantityChanged = { quantity -> viewModel.quantityChanged(quantity) },
+                    onQuantityChanged = { quantity ->
+                        viewModel.processIntent(
+                            AddNewItemIntent.UpdateQuantity(
+                                quantity = quantity
+                            )
+                        )
+                    },
                     onAddItemClicked = {
-                        viewModel.addItem()
-                        if (state.savingState.isSavingError) {
-                            showSnackbar(snackbarHostState, coroutineScope, context)
-                        }
+                        viewModel.processIntent(AddNewItemIntent.AddItem)
                     }
                 )
             }

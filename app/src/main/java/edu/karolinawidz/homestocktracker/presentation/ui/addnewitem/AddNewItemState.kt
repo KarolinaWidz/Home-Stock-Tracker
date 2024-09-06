@@ -17,7 +17,7 @@ data class NewItem(
 
 data class SavingState(
     val isSaved: Boolean = false,
-    val isSavingError:Boolean = false
+    val isSavingError: Boolean = false
 )
 
 data class AddNewItemError(

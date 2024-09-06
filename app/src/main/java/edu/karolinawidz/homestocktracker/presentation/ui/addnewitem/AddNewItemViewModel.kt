@@ -1,5 +1,6 @@
 package edu.karolinawidz.homestocktracker.presentation.ui.addnewitem
 
+import android.util.Log
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,14 +23,23 @@ class AddNewItemViewModel @Inject constructor(
     private var _state = MutableStateFlow(AddNewItemState())
     val state: StateFlow<AddNewItemState> = _state
 
+    fun processIntent(intent: AddNewItemIntent) {
+        when (intent) {
+            AddNewItemIntent.AddItem -> addItem()
+            is AddNewItemIntent.UpdateCategory -> categoryUpdated(intent.category)
+            is AddNewItemIntent.UpdateName -> nameUpdated(intent.name)
+            is AddNewItemIntent.UpdateQuantity -> quantityUpdated(intent.quantity)
+        }
+    }
+
     fun provideCategories() = Category.getEntries().toImmutableList()
 
-    fun categorySelected(category: Category) {
+    private fun categoryUpdated(category: Category) {
         val currentItem = _state.value.newItem
         _state.update { state -> state.copy(newItem = currentItem.copy(category = category)) }
     }
 
-    fun nameUpdated(name: String) {
+    private fun nameUpdated(name: String) {
         if (name.isNotBlank()) {
             _state.update { state ->
                 state.copy(
@@ -51,7 +61,7 @@ class AddNewItemViewModel @Inject constructor(
         }
     }
 
-    fun quantityChanged(quantity: String) {
+    private fun quantityUpdated(quantity: String) {
         val currentItem = _state.value.newItem
         val validatedQuantity = if (quantity.isNotBlank() && quantity.isDigitsOnly()) {
             quantity.toLong()
@@ -61,7 +71,7 @@ class AddNewItemViewModel @Inject constructor(
         _state.update { state -> state.copy(newItem = currentItem.copy(quantity = validatedQuantity)) }
     }
 
-    fun addItem() {
+    private fun addItem() {
         val item = _state.value.newItem
         val error = _state.value.addNewItemError
         if (canItemBeAdded(item = item, error = error)) {
@@ -83,6 +93,7 @@ class AddNewItemViewModel @Inject constructor(
                     savingState = state.savingState.copy(isSaved = true, isSavingError = false)
                 )
             }
+            Log.i(TAG, "State updated to ${state.value}")
         } else {
             _state.update { state ->
                 state.copy(
@@ -92,6 +103,7 @@ class AddNewItemViewModel @Inject constructor(
                     )
                 )
             }
+            Log.i(TAG, "State updated to ${state.value}")
         }
     }
 
@@ -99,6 +111,11 @@ class AddNewItemViewModel @Inject constructor(
         item.name != null && !error.isNameError
 
     fun resetItemState() {
-        _state.value = AddNewItemState()
+        _state.update { AddNewItemState() }
+        Log.i(TAG, "State updated to ${state.value}")
+    }
+
+    private companion object {
+        const val TAG = "AddNewItemViewModel"
     }
 }
