@@ -1,6 +1,5 @@
 package edu.karolinawidz.homestocktracker.presentation.ui.addnewitem
 
-import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,46 +40,27 @@ class AddNewItemViewModel @Inject constructor(
     }
 
     private fun nameUpdated(name: String) {
-        if (name.isNotBlank()) {
-            _state.update { state ->
-                state.copy(
-                    addNewItemError = state.addNewItemError.copy(
-                        isNameError = false
-                    ),
-                    newItem = state.newItem.copy(name = name)
-                )
-            }
-        } else {
-            _state.update { state ->
-                state.copy(
-                    addNewItemError = state.addNewItemError.copy(
-                        isNameError = true
-                    ),
-                    newItem = state.newItem.copy(name = name)
-                )
-            }
+        val isError = name.isBlank()
+        _state.update { state ->
+            state.copy(
+                addNewItemError = state.addNewItemError.copy(
+                    isNameError = isError
+                ),
+                newItem = state.newItem.copy(name = name)
+            )
         }
     }
 
     private fun quantityUpdated(quantity: String) {
-        if (quantity.isNotBlank() && quantity.isDigitsOnly()) {
-            _state.update { state ->
-                state.copy(
-                    addNewItemError = state.addNewItemError.copy(
-                        isQuantityError = false
-                    ),
-                    newItem = state.newItem.copy(quantity = quantity.toLong())
-                )
-            }
-        } else {
-            _state.update { state ->
-                state.copy(
-                    addNewItemError = state.addNewItemError.copy(
-                        isQuantityError = true
-                    ),
-                    newItem = state.newItem.copy(quantity = null)
-                )
-            }
+        val transformedQuantity = quantity.toLongOrNull()
+        val isError = transformedQuantity == null
+        _state.update { state ->
+            state.copy(
+                addNewItemError = state.addNewItemError.copy(
+                    isQuantityError = isError
+                ),
+                newItem = state.newItem.copy(quantity = transformedQuantity)
+            )
         }
     }
 
