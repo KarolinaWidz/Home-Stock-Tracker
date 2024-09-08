@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
@@ -18,7 +21,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -47,10 +54,12 @@ fun AddNewItem(
     isQuantityError: Boolean = false,
     onAddItemClicked: () -> Unit = {},
 ) {
+    val scrollState = rememberScrollState()
     Column(
         modifier = modifier
             .padding(PaddingLarge)
             .fillMaxSize()
+            .verticalScroll(scrollState)
     ) {
         ItemNameField(
             name = name,
@@ -84,6 +93,7 @@ private fun ItemNameField(
     isError: Boolean = false,
     onNameChanged: (String) -> Unit = {}
 ) {
+    val focusManager = LocalFocusManager.current
     OutlinedTextField(
         modifier = modifier
             .fillMaxWidth()
@@ -110,6 +120,11 @@ private fun ItemNameField(
                     color = MaterialTheme.colorScheme.error
                 )
         },
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Sentences,
+            imeAction = ImeAction.Next
+        ),
+        keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Next) })
     )
 }
 
@@ -158,7 +173,7 @@ private fun CategoryRegion(
     onCategorySelected: (Category) -> Unit = {},
     selectedCategory: Category?
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.padding(bottom = PaddingLarge)) {
         Text(
             modifier = Modifier
                 .padding(bottom = PaddingLarge)
