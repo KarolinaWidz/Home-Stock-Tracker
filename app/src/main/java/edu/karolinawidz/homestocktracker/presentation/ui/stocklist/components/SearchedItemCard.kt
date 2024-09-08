@@ -1,19 +1,14 @@
 package edu.karolinawidz.homestocktracker.presentation.ui.stocklist.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewFontScale
@@ -23,63 +18,50 @@ import edu.karolinawidz.homestocktracker.presentation.ui.common.Category
 import edu.karolinawidz.homestocktracker.presentation.ui.common.StockItem
 import edu.karolinawidz.homestocktracker.presentation.ui.common.components.CategoryImage
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingMedium
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.PaddingSmall
-import edu.karolinawidz.homestocktracker.presentation.ui.theme.SizeMedium
+import edu.karolinawidz.homestocktracker.presentation.ui.theme.SizeSmall
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.Typography
 
 
 @Composable
-fun StockItemCard(
+fun SearchedItemCard(
     stockItem: StockItem,
     modifier: Modifier = Modifier,
-    onIncreaseItemClicked: () -> Unit = {},
-    onDecreaseItemClicked: () -> Unit = {}
 ) {
-
     Row(
         modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
             .padding(vertical = PaddingSmall, horizontal = PaddingSmall),
         verticalAlignment = Alignment.CenterVertically
     ) {
         CategoryImage(
             category = stockItem.category,
-            size = SizeMedium,
-            backgroundColor = MaterialTheme.colorScheme.surfaceVariant
+            size = SizeSmall,
+            backgroundColor = MaterialTheme.colorScheme.background
         )
 
-        ItemText(
+        SearchedItemText(
             modifier = Modifier.weight(4f),
             name = stockItem.name,
             quantity = stockItem.quantity
         )
-
-        IncreaseIconButton(
-            modifier = Modifier.weight(1f),
-            onIncreaseItemClicked = onIncreaseItemClicked
-        )
-
-        DecreaseIconButton(
-            modifier = Modifier.weight(1f),
-            onDecreaseItemClicked = onDecreaseItemClicked
-        )
     }
 }
 
 @Composable
-private fun ItemText(name: String, quantity: Long, modifier: Modifier = Modifier) {
-    Column(
+private fun SearchedItemText(name: String, quantity: Long, modifier: Modifier = Modifier) {
+    Row(
         modifier = modifier.padding(PaddingSmall),
-        verticalArrangement = Arrangement.spacedBy(PaddingSmall)
     ) {
-        ItemName(name = name)
-        ItemQuantity(quantity = quantity)
+        SearchedItemName(name = name)
+        Spacer(modifier = Modifier.weight(1f))
+        SearchedItemQuantity(quantity = quantity)
     }
 }
 
 @Composable
-private fun ItemName(name: String, modifier: Modifier = Modifier) {
+private fun SearchedItemName(name: String, modifier: Modifier = Modifier) {
     Text(
         modifier = modifier,
         text = name,
@@ -89,48 +71,13 @@ private fun ItemName(name: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ItemQuantity(quantity: Long, modifier: Modifier = Modifier) {
+fun SearchedItemQuantity(quantity: Long, modifier: Modifier = Modifier) {
     Text(
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = PaddingMedium),
         text = stringResource(R.string.quantity_list, quantity),
         style = Typography.labelSmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
-}
-
-@Composable
-private fun IncreaseIconButton(
-    onIncreaseItemClicked: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    IconButton(modifier = modifier, onClick = onIncreaseItemClicked) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_up),
-            tint = MaterialTheme.colorScheme.onBackground,
-            contentDescription = stringResource(
-                R.string.increase_number_of_units
-            )
-        )
-    }
-}
-
-@Composable
-private fun DecreaseIconButton(
-    onDecreaseItemClicked: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    IconButton(
-        modifier = modifier,
-        onClick = onDecreaseItemClicked
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_down),
-            tint = MaterialTheme.colorScheme.onBackground,
-            contentDescription = stringResource(
-                R.string.decrease_number_of_units
-            )
-        )
-    }
 }
 
 @PreviewLightDark
@@ -140,7 +87,7 @@ private fun DecreaseIconButton(
 private fun PreviewStockListScreen() {
     HomeStockTrackerTheme {
         val item = StockItem("Soap", 1, Category.COSMETICS)
-        StockItemCard(item)
+        SearchedItemCard(item)
     }
 }
 
