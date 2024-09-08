@@ -8,4 +8,6 @@ sealed interface StockListIntent {
     data class DecreaseAmountOfItem(val item: StockItem) : StockListIntent
     data class DeleteItem(val item: StockItem) : StockListIntent
     data object ChangeOrder : StockListIntent
+    data class OnSearchStateChange(val isActive: Boolean) : StockListIntent
+    data class SearchQueryChanged(val query: String) : StockListIntent
 }

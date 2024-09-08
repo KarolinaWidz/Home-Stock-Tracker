@@ -7,6 +7,7 @@ import edu.karolinawidz.homestocktracker.data.local.Item
 import edu.karolinawidz.homestocktracker.data.repository.StockItemRepository
 import edu.karolinawidz.homestocktracker.presentation.ui.common.StockItem
 import edu.karolinawidz.homestocktracker.presentation.ui.common.toStockItems
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -29,6 +30,8 @@ class StockListViewModel @Inject constructor(
             is StockListIntent.DeleteItem -> deleteItem(item = intent.item)
             StockListIntent.LoadStock -> loadHomeStock()
             StockListIntent.ChangeOrder -> changeOrder()
+            is StockListIntent.SearchQueryChanged -> onSearchQueryChanged(query = intent.query)
+            is StockListIntent.OnSearchStateChange -> onSearchActiveChanged(isSearchActive = intent.isActive)
         }
     }
 
@@ -88,6 +91,31 @@ class StockListViewModel @Inject constructor(
         viewModelScope.launch {
             repository.deleteItem(itemToDelete)
         }
+    }
+
+    private fun onSearchQueryChanged(query: String) {
+        _state.update { state -> state.copy(searchQuery = query) }
+        if (query.isNotBlank()) {
+            viewModelScope.launch {
+                repository.findItemsByName(query).collectLatest {
+                    _state.update { state ->
+                        state.copy(
+                            searchResult = it.toStockItems()
+                        )
+                    }
+                }
+            }
+        } else {
+            _state.update { state ->
+                state.copy(
+                    searchResult = persistentListOf()
+                )
+            }
+        }
+    }
+
+    private fun onSearchActiveChanged(isSearchActive: Boolean) {
+        _state.update { state -> state.copy(isSearchActive = isSearchActive) }
     }
 
     private fun List<Item>.getSortedItems(isAsc: Boolean) = if (!isAsc) this.reversed() else this

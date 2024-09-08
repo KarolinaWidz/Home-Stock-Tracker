@@ -23,17 +23,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import edu.karolinawidz.homestocktracker.R
+import edu.karolinawidz.homestocktracker.presentation.ui.common.StockItem
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.HomeStockTrackerTheme
 import edu.karolinawidz.homestocktracker.presentation.ui.theme.SpacerMedium
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 internal fun TopBar(
-    title: String, isSearchActive: Boolean,
+    title: String,
+    isSearchActive: Boolean,
     onQueryChanged: (String) -> Unit,
     onSearch: (String) -> Unit,
     onActiveChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    onSortClicked: () -> Unit = {}
+    searchResult: ImmutableList<StockItem> = persistentListOf(),
+    onSortClicked: () -> Unit = {},
 ) {
     Column(modifier = modifier) {
         TopTitleBar(
@@ -46,7 +51,8 @@ internal fun TopBar(
             isSearchActive = isSearchActive,
             onQueryChanged = onQueryChanged,
             onSearch = onSearch,
-            onActiveChanged = onActiveChanged
+            onActiveChanged = onActiveChanged,
+            searchResult = searchResult
         )
     }
 }

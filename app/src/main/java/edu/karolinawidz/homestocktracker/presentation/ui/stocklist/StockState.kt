@@ -8,4 +8,7 @@ data class StockState(
     val isLoading: Boolean = true,
     val isOrderAscending: Boolean = true,
     val stockItems: ImmutableList<StockItem> = persistentListOf(),
+    val searchQuery: String = "",
+    val isSearchActive: Boolean = false,
+    val searchResult: ImmutableList<StockItem> = persistentListOf(),
 )

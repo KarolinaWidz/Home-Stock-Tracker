@@ -10,9 +10,7 @@ interface StockItemRepository {
 
     suspend fun updateItem(item: Item)
 
-    fun findItemByName(itemName: String): Flow<Item>
+    fun findItemsByName(itemName: String): Flow<List<Item>>
 
     fun getAllItems(): Flow<List<Item>>
-
-    fun getAllItemsWithCategory(category: String): Flow<List<Item>>
 }

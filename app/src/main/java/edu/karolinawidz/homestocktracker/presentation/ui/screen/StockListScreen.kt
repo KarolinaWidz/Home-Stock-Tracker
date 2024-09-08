@@ -6,9 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -30,7 +27,6 @@ fun StockListScreen(
     viewModel: StockListViewModel = hiltViewModel()
 ) {
     val appTitle = stringResource(id = R.string.app_name)
-    var isSearchActive by rememberSaveable { mutableStateOf(false) }
     val state by viewModel.state.collectAsState()
 
 
@@ -42,10 +38,29 @@ fun StockListScreen(
         topBar = {
             TopBar(
                 title = appTitle,
-                isSearchActive = isSearchActive,
-                onQueryChanged = { TODO() },
-                onSearch = { TODO() },
-                onActiveChanged = { isSearchActive = it },
+                isSearchActive = state.isSearchActive,
+                onQueryChanged = { query ->
+                    viewModel.processIntent(
+                        StockListIntent.SearchQueryChanged(
+                            query = query
+                        )
+                    )
+                },
+                onSearch = { query ->
+                    viewModel.processIntent(
+                        StockListIntent.SearchQueryChanged(
+                            query = query
+                        )
+                    )
+                },
+                onActiveChanged = { isActive ->
+                    viewModel.processIntent(
+                        StockListIntent.OnSearchStateChange(
+                            isActive = isActive
+                        )
+                    )
+                },
+                searchResult = state.searchResult,
                 onSortClicked = { viewModel.processIntent(StockListIntent.ChangeOrder) }
             )
         },

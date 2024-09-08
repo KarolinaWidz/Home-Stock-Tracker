@@ -19,15 +19,11 @@ class StockItemOfflineRepository @Inject constructor(private val dao: StockItemD
         dao.update(item)
     }
 
-    override fun findItemByName(itemName: String): Flow<Item> {
-        return dao.findByName(itemName)
+    override fun findItemsByName(itemName: String): Flow<List<Item>> {
+        return dao.findAllWithName(itemName)
     }
 
     override fun getAllItems(): Flow<List<Item>> {
         return dao.getAll()
-    }
-
-    override fun getAllItemsWithCategory(category: String): Flow<List<Item>> {
-        return dao.getAllWithCategory(category)
     }
 }

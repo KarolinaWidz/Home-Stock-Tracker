@@ -19,8 +19,8 @@ interface StockItemDao {
     @Update
     suspend fun update(item: Item)
 
-    @Query("SELECT * FROM item WHERE name=:itemName LIMIT 1")
-    fun findByName(itemName: String): Flow<Item>
+    @Query("SELECT * FROM item WHERE name LIKE '%' || :itemName || '%'")
+    fun findAllWithName(itemName: String): Flow<List<Item>>
 
     @Query("SELECT * FROM item ORDER BY name")
     fun getAll(): Flow<List<Item>>
